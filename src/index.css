@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Core Palette Tokens per DESIGN.md */
+  --bg-primary: #FFFFFF;
+  --bg-elevated: #F5F7FA;
+  --bg-surface-subtle: #EEF2F6;
+  
+  --accent-signal: #2056A3;
+  --accent-signal-deep: #00439B;
+  --accent-signal-subtle: #E8F0FE;
+  
+  --accent-success: #10B981;
+  --accent-warn: #FF9F3D;
+  --accent-danger: #FF4D4D;
+  
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #5B6472;
+  --text-inverse: #FFFFFF;
+
+  --divider: #E2E6EB;
+  --border-focus: #2056A3;
+}
+
+/* Accessibility & Focus-Visible */
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* Base Body Styles */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Subtle Entrance Animation */
+@keyframes heroFadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-fade {
+  animation: heroFadeSlideUp 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom Blueprint Grid for 3D Viewport Placeholder */
+.blueprint-grid {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(226, 230, 235, 0.7) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(226, 230, 235, 0.7) 1px, transparent 1px);
+}
