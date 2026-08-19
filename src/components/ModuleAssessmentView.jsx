@@ -66,23 +66,20 @@ export default function ModuleAssessmentView({
     });
 
     const calculatedPercentage = Math.round((calculatedScore / questions.length) * 100);
-    const hasPassed = calculatedPercentage >= assessment.passThreshold;
 
     setScore(calculatedScore);
     setPercentage(calculatedPercentage);
-    setPassed(hasPassed);
     setSubmitted(true);
 
-    if (hasPassed) {
-      try {
-        localStorage.setItem(`asteria_module_${moduleId}`, 'completed');
-        if (moduleId === 'mod-drone-types' || moduleId === 'mod-types-of-drones') {
-          localStorage.setItem('asteria_module_mod-drone-types', 'completed');
-          localStorage.setItem('asteria_module_mod-types-of-drones', 'completed');
-        }
-      } catch (err) {
-        console.warn('Could not persist assessment completion', err);
+    // Automatically mark module completed upon submission
+    try {
+      localStorage.setItem(`asteria_module_${moduleId}`, 'completed');
+      if (moduleId === 'mod-drone-types' || moduleId === 'mod-types-of-drones') {
+        localStorage.setItem('asteria_module_mod-drone-types', 'completed');
+        localStorage.setItem('asteria_module_mod-types-of-drones', 'completed');
       }
+    } catch (err) {
+      console.warn('Could not persist assessment completion', err);
     }
 
     setTimeout(() => {
@@ -100,7 +97,6 @@ export default function ModuleAssessmentView({
     setSubmitted(false);
     setScore(0);
     setPercentage(0);
-    setPassed(false);
     setShowUnansweredWarning(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -144,8 +140,8 @@ export default function ModuleAssessmentView({
           </button>
 
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--accent-signal-subtle)] text-[var(--accent-signal)] text-xs font-mono font-bold border border-[#BFDBFE]">
-            <ShieldCheck className="w-4 h-4" />
-            <span>Pass Threshold: {assessment.passThreshold}% (8/10)</span>
+            <Award className="w-4 h-4" />
+            <span>Assessment: 10 Questions</span>
           </div>
         </div>
 
@@ -156,14 +152,14 @@ export default function ModuleAssessmentView({
           <div className="inline-flex items-center gap-2 px-3 py-1 mb-3 rounded-full bg-[var(--accent-signal-subtle)] border border-[#BFDBFE]">
             <Award className="w-3.5 h-3.5 text-[var(--accent-signal)]" />
             <span className="font-display text-[10px] sm:text-xs font-bold tracking-[0.08em] uppercase text-[var(--accent-signal)]">
-              MODULE {assessment.moduleNumber} · MASTERY ASSESSMENT
+              MODULE {assessment.moduleNumber} · KNOWLEDGE ASSESSMENT & REVIEW
             </span>
           </div>
           <h1 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-[var(--text-primary)]">
             {assessment.moduleTitle} Assessment
           </h1>
           <p className="font-body text-xs sm:text-sm text-[var(--text-muted)] mt-2 leading-relaxed max-w-2xl">
-            Answer all 10 questions (4 core definitions + 6 applied scenario questions). You must score at least <strong>80% (8/10 correct)</strong> to pass and unlock the next module.
+            Answer all 10 questions (4 core definitions + 6 applied scenario questions). Submit to review correct answers, check any missed questions, and proceed to the next module.
           </p>
 
           {/* Answer Progress Tracker */}
@@ -185,30 +181,22 @@ export default function ModuleAssessmentView({
         {/* ================= 3. RESULTS BANNER (DISPLAYED AFTER SUBMISSION) ================= */}
         {submitted && (
           <div 
-            className={`mb-10 p-6 sm:p-8 rounded-2xl border transition-all animate-fade-in shadow-md ${
-              passed 
-                ? 'bg-[#ECFDF5] border-[#A7F3D0] text-[#065F46]' 
-                : 'bg-[#FEF2F2] border-[#FECACA] text-[#991B1B]'
-            }`}
+            className="mb-10 p-6 sm:p-8 rounded-2xl border transition-all animate-fade-in shadow-md bg-[var(--bg-elevated)] border-[var(--divider)]"
           >
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 mb-6 border-b border-current/20">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 mb-6 border-b border-[var(--divider)]">
               <div className="flex items-start sm:items-center gap-4">
-                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-sm ${
-                  passed ? 'bg-[#059669] text-white shadow-brand' : 'bg-[#DC2626] text-white'
-                }`}>
-                  {passed ? <Award className="w-8 h-8" /> : <AlertTriangle className="w-8 h-8" />}
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-brand bg-[#059669] text-white">
+                  <Award className="w-8 h-8" />
                 </div>
                 <div>
-                  <span className="font-mono text-xs font-bold uppercase tracking-wider block opacity-90">
-                    {passed ? 'ASSESSMENT STATUS: PASSED ✓' : 'ASSESSMENT STATUS: NEEDS REVIEW'}
+                  <span className="font-mono text-xs font-bold uppercase tracking-wider block text-[#059669]">
+                    ASSESSMENT SUBMITTED & MODULE COMPLETED ✓
                   </span>
-                  <h2 className="font-display text-3xl font-bold mt-0.5">
+                  <h2 className="font-display text-3xl font-bold mt-0.5 text-[var(--text-primary)]">
                     Score: {score} / {questions.length} ({percentage}%)
                   </h2>
-                  <p className="font-body text-xs sm:text-sm mt-1 opacity-90">
-                    {passed 
-                      ? 'Congratulations! You have demonstrated mastery of this module. The next module is now unlocked.' 
-                      : 'You scored below the 80% passing threshold (min. 8/10 required). Review the technical explanations below and retake the assessment.'}
+                  <p className="font-body text-xs sm:text-sm mt-1 text-[var(--text-secondary)]">
+                    Review your answers below. Correct answers are highlighted in <span className="font-bold text-[#059669]">green</span>, and any incorrect choices in <span className="font-bold text-[#DC2626]">red</span>. You can now proceed directly to the next module.
                   </p>
                 </div>
               </div>
@@ -218,13 +206,13 @@ export default function ModuleAssessmentView({
                 <button
                   type="button"
                   onClick={handleRetake}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white border border-current text-current font-mono text-xs font-bold shadow-2xs hover:bg-white/80 transition-all"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--divider)] hover:border-[var(--accent-signal)] text-[var(--text-secondary)] hover:text-[var(--accent-signal)] font-mono text-xs font-bold shadow-2xs transition-all"
                 >
                   <RotateCcw className="w-4 h-4" />
                   <span>Retake Assessment</span>
                 </button>
 
-                {passed && onNavigateNextModule && (
+                {onNavigateNextModule && (
                   <button
                     type="button"
                     onClick={onNavigateNextModule}
@@ -234,22 +222,11 @@ export default function ModuleAssessmentView({
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 )}
-
-                {!passed && (
-                  <button
-                    type="button"
-                    onClick={onNavigateBackToModule}
-                    className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[var(--bg-primary)] border border-current text-current font-display text-xs font-bold hover:bg-white/50 transition-all"
-                  >
-                    <BookOpen className="w-4 h-4" />
-                    <span>Review Module Material</span>
-                  </button>
-                )}
               </div>
             </div>
 
-            <div className="font-mono text-xs opacity-80 flex items-center justify-between">
-              <span>Verified Passing Threshold: 80% (8/10)</span>
+            <div className="font-mono text-xs text-[var(--text-muted)] flex items-center justify-between">
+              <span>Module Completed · Ready for Next Track</span>
               <span>Module ID: {moduleId}</span>
             </div>
           </div>
@@ -258,7 +235,7 @@ export default function ModuleAssessmentView({
         {/* ================= 4. QUESTIONS LIST ================= */}
         <form onSubmit={handleSubmit} className="space-y-6">
           {questions.map((q, qIndex) => {
-            const isSelected = answers[q.id] !== undefined;
+            const isOptionSelected = answers[q.id] !== undefined;
             const selectedOpt = answers[q.id];
             const isCorrect = submitted && selectedOpt === q.correctIndex;
             const isWrong = submitted && selectedOpt !== q.correctIndex;
@@ -271,7 +248,7 @@ export default function ModuleAssessmentView({
                     ? isCorrect 
                       ? 'border-[#059669] bg-[#F0FDF4]' 
                       : 'border-[#DC2626] bg-[#FEF2F2]'
-                    : isSelected
+                    : isOptionSelected
                       ? 'border-[var(--accent-signal)]/60'
                       : 'border-[var(--divider)]'
                 }`}
@@ -324,24 +301,30 @@ export default function ModuleAssessmentView({
                 <div className="space-y-2.5">
                   {q.options.map((opt, optIndex) => {
                     const isOptionChosen = selectedOpt === optIndex;
-                    const isActualCorrect = submitted && optIndex === q.correctIndex;
-                    const isChosenWrong = submitted && isOptionChosen && !isCorrect;
+                    const isActualCorrect = optIndex === q.correctIndex;
+                    const isChosenWrong = isOptionChosen && !isActualCorrect;
+
+                    let optionClass = "bg-[var(--bg-primary)] border-[var(--divider)] text-[var(--text-secondary)] hover:border-[var(--accent-signal)]/60 hover:bg-[var(--bg-elevated)]";
+
+                    if (submitted) {
+                      if (isActualCorrect) {
+                        // Correct answer in GREEN
+                        optionClass = "bg-[#ECFDF5] border-[#059669] text-[#065F46] font-semibold ring-2 ring-[#059669]/40 shadow-xs";
+                      } else if (isChosenWrong) {
+                        // User marked wrong answer in RED
+                        optionClass = "bg-[#FEF2F2] border-[#DC2626] text-[#991B1B] font-semibold ring-2 ring-[#DC2626]/40 shadow-xs";
+                      } else {
+                        optionClass = "bg-[var(--bg-primary)] border-[var(--divider)] text-[var(--text-muted)] opacity-60";
+                      }
+                    } else if (isOptionChosen) {
+                      optionClass = "bg-[var(--accent-signal-subtle)] border-[var(--accent-signal)] text-[var(--text-primary)] font-semibold shadow-xs";
+                    }
 
                     return (
                       <label 
                         key={optIndex}
                         onClick={() => handleSelectOption(q.id, optIndex)}
-                        className={`flex items-start gap-3 p-3.5 sm:p-4 rounded-xl border font-body text-xs sm:text-sm cursor-pointer transition-all ${
-                          submitted
-                            ? isActualCorrect
-                              ? 'bg-[#ECFDF5] border-[#059669] text-[#065F46] font-semibold ring-1 ring-[#059669]'
-                              : isChosenWrong
-                                ? 'bg-[#FEE2E2] border-[#DC2626] text-[#991B1B] font-semibold'
-                                : 'bg-[var(--bg-primary)] border-[var(--divider)] text-[var(--text-muted)] opacity-60'
-                            : isOptionChosen
-                              ? 'bg-[var(--accent-signal-subtle)] border-[var(--accent-signal)] text-[var(--text-primary)] font-semibold shadow-xs'
-                              : 'bg-[var(--bg-primary)] border-[var(--divider)] text-[var(--text-secondary)] hover:border-[var(--accent-signal)]/60 hover:bg-[var(--bg-elevated)]'
-                        }`}
+                        className={`flex items-start gap-3 p-3.5 sm:p-4 rounded-xl border font-body text-xs sm:text-sm cursor-pointer transition-all ${optionClass}`}
                       >
                         <input
                           type="radio"
@@ -357,12 +340,21 @@ export default function ModuleAssessmentView({
                             {String.fromCharCode(65 + optIndex)}.
                           </span>
                           <span>{opt}</span>
-                          {isActualCorrect && submitted && (
-                            <span className="ml-2 inline-flex items-center text-[#059669] font-mono text-xs font-bold">
-                              ✓ Correct Answer
-                            </span>
-                          )}
                         </div>
+
+                        {submitted && isActualCorrect && (
+                          <span className="ml-2 inline-flex items-center gap-1 text-[#059669] font-mono text-xs font-bold shrink-0">
+                            <CheckCircle className="w-4 h-4 text-[#059669]" />
+                            <span>{isOptionChosen ? "Your Answer (Correct)" : "Correct Answer"}</span>
+                          </span>
+                        )}
+
+                        {submitted && isChosenWrong && (
+                          <span className="ml-2 inline-flex items-center gap-1 text-[#DC2626] font-mono text-xs font-bold shrink-0">
+                            <XCircle className="w-4 h-4 text-[#DC2626]" />
+                            <span>Your Answer (Incorrect)</span>
+                          </span>
+                        )}
                       </label>
                     );
                   })}
@@ -426,7 +418,7 @@ export default function ModuleAssessmentView({
                 <span>Retake Assessment</span>
               </button>
 
-              {passed && onNavigateNextModule ? (
+              {onNavigateNextModule && (
                 <button
                   type="button"
                   onClick={onNavigateNextModule}
@@ -434,15 +426,6 @@ export default function ModuleAssessmentView({
                 >
                   <span>Proceed to Next Module</span>
                   <ArrowRight className="w-4 h-4" />
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={onNavigateBackToModule}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs font-bold font-display text-[var(--accent-signal)] bg-[var(--bg-elevated)] border border-[var(--accent-signal)] hover:bg-[var(--accent-signal-subtle)] transition-all"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  <span>Return to Module Study Material</span>
                 </button>
               )}
             </div>

@@ -78,7 +78,7 @@ export default function CurriculumFlashcardsView({
           "Explain why adjacent drone propellers rotate in opposite directions (CW vs CCW)",
           "Identify core flight components and ground control station telemetry"
         ],
-        interactiveTools: ["Full Video Lecture & Masterclass", "Technical Terminology Flashcards", "Module Mastery Quiz (10 Qs · 80% to Pass)"],
+        interactiveTools: ["Full Video Lecture & Masterclass", "Technical Terminology Flashcards", "Module Knowledge Assessment (10 Qs)"],
         testQuestion: "Why must adjacent propellers on a quadcopter rotate in opposite directions?"
       },
       launchAction: onNavigateModule1
@@ -102,7 +102,7 @@ export default function CurriculumFlashcardsView({
           "Analyze why X-configuration dominates commercial aerial survey drones",
           "Understand transition aerodynamics in Hybrid VTOL aircraft"
         ],
-        interactiveTools: ["Full Video Lecture & Masterclass", "Interactive 3D Drone Model Viewer", "Module Mastery Quiz (10 Qs · 80% to Pass)"],
+        interactiveTools: ["Full Video Lecture & Masterclass", "Interactive 3D Drone Model Viewer", "Module Knowledge Assessment (10 Qs)"],
         testQuestion: "What is the key advantage of an X-frame quadcopter over a +-frame quadcopter for camera payloads?"
       },
       launchAction: onNavigateModule2
@@ -126,7 +126,7 @@ export default function CurriculumFlashcardsView({
           "Calculate battery pack voltages (S) and capacities (P)",
           "Evaluate advantages and thermal trade-offs of 4-in-1 vs standalone ESCs"
         ],
-        interactiveTools: ["Full Video Lecture & Masterclass", "Battery Configuration S/P Calculator", "Module Mastery Quiz (10 Qs · 80% to Pass)"],
+        interactiveTools: ["Full Video Lecture & Masterclass", "Battery Configuration S/P Calculator", "Module Knowledge Assessment (10 Qs)"],
         testQuestion: "What is the nominal voltage and total capacity of a 6S2P LiPo battery made of 3.7V 5000mAh cells?"
       },
       launchAction: onNavigateModule3
@@ -150,7 +150,7 @@ export default function CurriculumFlashcardsView({
           "Trace how complementary filters and EKF fuse GPS and barometric altitude data",
           "Analyze autopilot behavior during single-sensor loss or GPS degradation"
         ],
-        interactiveTools: ["Full Video Lecture & Masterclass", "6-Channel Sensor Fusion Explainer", "Module Mastery Quiz (10 Qs · 80% to Pass)"],
+        interactiveTools: ["Full Video Lecture & Masterclass", "6-Channel Sensor Fusion Explainer", "Module Knowledge Assessment (10 Qs)"],
         testQuestion: "If a drone loses its magnetometer signal in flight, which capability is at risk of drifting?"
       },
       launchAction: onNavigateModule4
@@ -174,7 +174,7 @@ export default function CurriculumFlashcardsView({
           "Understand how fixed-wing wings generate lift via forward velocity versus rotor thrust",
           "Apply flight equilibrium principles to operational battery consumption"
         ],
-        interactiveTools: ["Full Video Lecture & Masterclass", "4-Force Dynamic Flight Simulator", "Module Mastery Quiz (10 Qs · 80% to Pass)"],
+        interactiveTools: ["Full Video Lecture & Masterclass", "4-Force Dynamic Flight Simulator", "Module Knowledge Assessment (10 Qs)"],
         testQuestion: "What force relationship is required for a multirotor to hover steadily at a constant altitude?"
       },
       launchAction: onNavigateModule5
@@ -198,7 +198,7 @@ export default function CurriculumFlashcardsView({
           "Understand how RTL climbs to clearance altitude before returning to Home point",
           "Identify appropriate pilot intervention strategies in each flight mode"
         ],
-        interactiveTools: ["Full Video Lecture & Masterclass", "2D Flight Mode Mission Playground", "Module Mastery Quiz (10 Qs · 80% to Pass)"],
+        interactiveTools: ["Full Video Lecture & Masterclass", "2D Flight Mode Mission Playground", "Module Knowledge Assessment (10 Qs)"],
         testQuestion: "What is the difference between Altitude Hold mode and Loiter mode when wind strikes the aircraft?"
       },
       launchAction: onNavigateModule6
@@ -222,7 +222,7 @@ export default function CurriculumFlashcardsView({
           "Understand why diagonal motor pairs share the same rotational direction (CW vs CCW)",
           "Simulate full attitude dynamics in real-time 3D"
         ],
-        interactiveTools: ["Full Video Lecture & Masterclass", "3D Roll/Pitch/Yaw Gimbal Simulator", "Module Mastery Quiz (10 Qs · 80% to Pass)"],
+        interactiveTools: ["Full Video Lecture & Masterclass", "3D Roll/Pitch/Yaw Gimbal Simulator", "Module Knowledge Assessment (10 Qs)"],
         testQuestion: "To tilt the quadcopter nose downward (forward pitch), which motors must increase thrust?"
       },
       launchAction: onNavigateModule7
@@ -246,7 +246,7 @@ export default function CurriculumFlashcardsView({
           "Differentiate statutory requirements between DigitalSky operations and eGCA registrations",
           "Identify mandatory failsafes and pilot certification standards under DGCA Drone Rules"
         ],
-        interactiveTools: ["Full Video Lecture & Masterclass", "DGCA Airspace Zone Checker", "Module Mastery Quiz (10 Qs · 80% to Pass)"],
+        interactiveTools: ["Full Video Lecture & Masterclass", "DGCA Airspace Zone Checker", "Module Knowledge Assessment (10 Qs)"],
         testQuestion: "What is the maximum permissible altitude in a Green Zone beyond 12 km from an operational airport?"
       },
       launchAction: onNavigateModule8

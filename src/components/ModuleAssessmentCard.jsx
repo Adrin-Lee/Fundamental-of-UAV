@@ -57,7 +57,6 @@ export default function ModuleAssessmentCard({
 
   const score = calculateScore();
   const percentage = Math.round((score / questions.length) * 100);
-  const passed = percentage >= assessment.passThreshold;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -68,22 +67,20 @@ export default function ModuleAssessmentCard({
     setSubmitted(true);
     setShowUnansweredWarning(false);
 
-    // If passed (>=80%), automatically persist and trigger completion
-    if (passed) {
-      try {
-        if (moduleId === 'mod-types-of-drones' || moduleId === 'mod-drone-types') {
-          localStorage.setItem('asteria_module_mod-types-of-drones', 'completed');
-          localStorage.setItem('asteria_module_mod-drone-types', 'completed');
-        } else {
-          localStorage.setItem(`asteria_module_${moduleId}`, 'completed');
-        }
-      } catch (err) {
-        console.warn('Unable to persist module completion to localStorage', err);
+    // Automatically mark module completed upon submission
+    try {
+      if (moduleId === 'mod-types-of-drones' || moduleId === 'mod-drone-types') {
+        localStorage.setItem('asteria_module_mod-types-of-drones', 'completed');
+        localStorage.setItem('asteria_module_mod-drone-types', 'completed');
+      } else {
+        localStorage.setItem(`asteria_module_${moduleId}`, 'completed');
       }
+    } catch (err) {
+      console.warn('Unable to persist module completion to localStorage', err);
+    }
 
-      if (onModuleCompleted) {
-        onModuleCompleted(true);
-      }
+    if (onModuleCompleted) {
+      onModuleCompleted(true);
     }
 
     // Scroll to results banner smoothly
@@ -109,22 +106,22 @@ export default function ModuleAssessmentCard({
           <div className="inline-flex items-center gap-2 px-3 py-1 mb-2 rounded-full bg-[var(--accent-signal-subtle)] border border-[#BFDBFE]">
             <Award className="w-3.5 h-3.5 text-[var(--accent-signal)]" />
             <span className="font-display text-[10px] sm:text-xs font-bold tracking-[0.08em] uppercase text-[var(--accent-signal)]">
-              MODULE {assessment.moduleNumber} · KNOWLEDGE ASSESSMENT
+              MODULE {assessment.moduleNumber} · KNOWLEDGE ASSESSMENT & REVIEW
             </span>
           </div>
           <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)]">
-            Module {assessment.moduleNumber} Mastery Assessment
+            Module {assessment.moduleNumber} Knowledge Assessment
           </h2>
           <p className="font-body text-xs sm:text-sm text-[var(--text-muted)] mt-1 max-w-2xl leading-relaxed">
-            Test your comprehension with 10 questions (4 core concepts + 6 tricky technical scenarios). You must score at least <strong>80% (8/10)</strong> to successfully pass and mark this module as completed.
+            Test your comprehension with 10 questions (4 core concepts + 6 applied scenario questions). Submit to immediately view your score, review correct & incorrect answers, and proceed to the next module.
           </p>
         </div>
 
-        {/* Passing Threshold Badge */}
+        {/* Assessment Question Count Badge */}
         <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[var(--bg-elevated)] border border-[var(--divider)] shadow-2xs shrink-0 self-start sm:self-auto">
-          <ShieldCheck className="w-4 h-4 text-[var(--accent-signal)]" />
+          <Award className="w-4 h-4 text-[var(--accent-signal)]" />
           <span className="font-mono text-xs font-semibold text-[var(--text-secondary)]">
-            Passing Score: <strong className="text-[var(--text-primary)]">80% (8/10)</strong>
+            Assessment: <strong className="text-[var(--text-primary)]">10 Questions</strong>
           </span>
         </div>
       </div>
@@ -133,24 +130,18 @@ export default function ModuleAssessmentCard({
       {submitted && (
         <div 
           ref={resultRef}
-          className={`mb-8 p-6 sm:p-8 rounded-2xl border transition-all animate-fadeIn ${
-            passed 
-              ? 'bg-[#ECFDF5] border-[#A7F3D0] text-[#065F46]' 
-              : 'bg-[#FEF2F2] border-[#FECACA] text-[#991B1B]'
-          }`}
+          className="mb-8 p-6 sm:p-8 rounded-2xl border transition-all animate-fadeIn bg-[var(--bg-elevated)] border-[var(--divider)] shadow-card"
         >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-5 border-b border-current/20">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-5 border-b border-[var(--divider)]">
             <div className="flex items-center gap-4">
-              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${
-                passed ? 'bg-[#059669] text-white shadow-brand' : 'bg-[#DC2626] text-white'
-              }`}>
-                {passed ? <Award className="w-7 h-7" /> : <AlertTriangle className="w-7 h-7" />}
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 bg-[#059669] text-white shadow-brand">
+                <Award className="w-7 h-7" />
               </div>
               <div>
-                <span className="font-mono text-[11px] font-bold uppercase tracking-wider block opacity-90">
-                  {passed ? 'Assessment Status: PASSED ✓' : 'Assessment Status: NEEDS REVIEW'}
+                <span className="font-mono text-[11px] font-bold uppercase tracking-wider block text-[#059669]">
+                  Assessment Submitted & Module Completed ✓
                 </span>
-                <h3 className="font-display text-2xl font-bold">
+                <h3 className="font-display text-2xl font-bold text-[var(--text-primary)]">
                   Score: {score} / {questions.length} ({percentage}%)
                 </h3>
               </div>
@@ -160,13 +151,13 @@ export default function ModuleAssessmentCard({
               <button
                 type="button"
                 onClick={handleRetake}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white border border-current text-current font-mono text-xs font-bold shadow-2xs hover:bg-white/80 transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[var(--bg-primary)] border border-[var(--divider)] hover:border-[var(--accent-signal)] text-[var(--text-secondary)] hover:text-[var(--accent-signal)] font-mono text-xs font-bold shadow-2xs transition-all"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Retake Quiz</span>
               </button>
 
-              {passed && onNavigateNext && nextModuleTitle && (
+              {onNavigateNext && nextModuleTitle && (
                 <button
                   type="button"
                   onClick={onNavigateNext}
@@ -179,10 +170,8 @@ export default function ModuleAssessmentCard({
             </div>
           </div>
 
-          <p className="font-body text-xs sm:text-sm leading-relaxed">
-            {passed 
-              ? `Outstanding work! You have successfully mastered Module ${assessment.moduleNumber} by scoring ${percentage}%. Review the verified answers and technical rationales below.` 
-              : `You scored ${percentage}%, which is below the 80% passing threshold (at least 8/10 correct answers required). Review the correct answers and detailed explanations below, then retake the assessment to complete this module.`}
+          <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
+            You scored {score} out of {questions.length} ({percentage}%). Review your answers below — correct answers are highlighted in <span className="font-bold text-[#059669]">green</span>, and any incorrect choices in <span className="font-bold text-[#DC2626]">red</span>. You can now proceed directly to the next module or retake this assessment anytime.
           </p>
         </div>
       )}
@@ -262,14 +251,17 @@ export default function ModuleAssessmentCard({
                 {q.options.map((opt, optIndex) => {
                   const isSelected = userChoice === optIndex;
                   const isThisOptionCorrect = optIndex === q.correctIndex;
+                  const isChosenWrong = submitted && isSelected && !isThisOptionCorrect;
 
                   let optionStyle = "border-[var(--divider)] bg-[var(--bg-primary)] hover:border-[var(--accent-signal)] text-[var(--text-secondary)]";
 
                   if (submitted) {
                     if (isThisOptionCorrect) {
-                      optionStyle = "border-[#059669] bg-[#ECFDF5] text-[#065F46] font-semibold ring-1 ring-[#059669]";
-                    } else if (isSelected && !isThisOptionCorrect) {
-                      optionStyle = "border-[#DC2626] bg-[#FEF2F2] text-[#991B1B] line-through";
+                      // Correct answer in GREEN
+                      optionStyle = "border-[#059669] bg-[#ECFDF5] text-[#065F46] font-semibold ring-2 ring-[#059669]/40 shadow-xs";
+                    } else if (isChosenWrong) {
+                      // User marked wrong answer in RED
+                      optionStyle = "border-[#DC2626] bg-[#FEF2F2] text-[#991B1B] font-semibold ring-2 ring-[#DC2626]/40 shadow-xs";
                     } else {
                       optionStyle = "border-[var(--divider)] bg-[var(--bg-primary)]/50 text-[var(--text-muted)] opacity-60";
                     }
@@ -293,10 +285,25 @@ export default function ModuleAssessmentCard({
                         disabled={submitted}
                         className="mt-0.5 text-[var(--accent-signal)] focus:ring-[var(--accent-signal)] cursor-pointer"
                       />
-                      <span className="flex-1 leading-relaxed">{opt}</span>
+                      <span className="flex-1 leading-relaxed">
+                        <span className="font-mono font-bold mr-1.5 opacity-80">
+                          {String.fromCharCode(65 + optIndex)}.
+                        </span>
+                        {opt}
+                      </span>
 
                       {submitted && isThisOptionCorrect && (
-                        <Check className="w-4 h-4 text-[#059669] shrink-0 mt-0.5" />
+                        <span className="ml-auto inline-flex items-center gap-1 text-[#059669] font-mono text-xs font-bold shrink-0">
+                          <Check className="w-4 h-4 text-[#059669]" />
+                          <span>{isSelected ? "Your Answer (Correct)" : "Correct Answer"}</span>
+                        </span>
+                      )}
+
+                      {submitted && isChosenWrong && (
+                        <span className="ml-auto inline-flex items-center gap-1 text-[#DC2626] font-mono text-xs font-bold shrink-0">
+                          <XCircle className="w-4 h-4 text-[#DC2626]" />
+                          <span>Your Answer (Incorrect)</span>
+                        </span>
                       )}
                     </label>
                   );
@@ -334,7 +341,7 @@ export default function ModuleAssessmentCard({
         {!submitted ? (
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="font-mono text-xs text-[var(--text-muted)]">
-              <span>Passing requirement: <strong>8 / 10 (80%)</strong></span>
+              <span>Answer all 10 questions to submit and review answers.</span>
             </div>
 
             <button
@@ -356,7 +363,7 @@ export default function ModuleAssessmentCard({
               <span>Retake Assessment</span>
             </button>
 
-            {passed && onNavigateNext && nextModuleTitle && (
+            {onNavigateNext && nextModuleTitle && (
               <button
                 type="button"
                 onClick={onNavigateNext}

@@ -140,7 +140,7 @@ export default function ModuleIntroView({ onNavigateHome, onNavigateNext, onNavi
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold font-body bg-[#E0F2FE] text-[#0369A1] border border-[#BAE6FD] hover:bg-[#0284C7] hover:text-white transition-all shadow-xs"
             >
               <Award className="w-3.5 h-3.5" />
-              <span>Take Assessment (80% to Pass)</span>
+              <span>Take Knowledge Assessment</span>
             </button>
           ) : (
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold font-body bg-[var(--bg-elevated)] text-[var(--text-secondary)] border border-[var(--divider)] shadow-2xs">
@@ -356,7 +356,7 @@ export default function ModuleIntroView({ onNavigateHome, onNavigateNext, onNavi
                 <ArrowRight className="w-4 h-4 text-white" />
               </button>
               <span className="font-mono text-xs text-[var(--text-muted)]">
-                {isAssessmentPassed ? 'Assessment Passed (80%+) ✓ · Click to Retake' : '80% score required to unlock next module'}
+                {isAssessmentPassed ? 'Assessment Completed ✓ · Click to Retake' : 'Submit assessment to unlock next module'}
               </span>
             </div>
           )}
@@ -374,7 +374,7 @@ export default function ModuleIntroView({ onNavigateHome, onNavigateNext, onNavi
           ) : (
             <div className="w-full sm:w-auto p-3.5 px-5 rounded-2xl bg-[var(--bg-elevated)] border border-dashed border-[var(--divider)] flex items-center justify-center sm:justify-end gap-2 text-xs font-mono text-[var(--text-muted)]">
               <Lock className="w-3.5 h-3.5 text-[var(--text-muted)] shrink-0" />
-              <span>Pass assessment (80%+) to unlock <strong>Next: {moduleInfo.next_module_title}</strong></span>
+              <span>Submit assessment to unlock <strong>Next: {moduleInfo.next_module_title}</strong></span>
             </div>
           )}
 
