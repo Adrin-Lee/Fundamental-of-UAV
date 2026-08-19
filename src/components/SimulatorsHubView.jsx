@@ -33,47 +33,21 @@ export default function SimulatorsHubView({
   onNavigateModule7,
   onNavigateModule8
 }) {
-  const [activeSim, setActiveSim] = useState('rpy');
+  const [activeSim, setActiveSim] = useState('battery');
 
   const simulators = [
     {
-      id: 'rpy',
-      name: '3D Attitude Kinematics',
-      shortName: '3D Attitude',
-      tag: 'TIER 1 3D SIMULATOR',
-      badge: '3D Physics',
-      icon: RotateCw,
-      moduleNumber: 'Module 07',
-      moduleTitle: 'UAV Attitude & Axis Movement',
-      desc: 'Interactive Three.js 3D quadcopter simulating differential motor thrust, counter-torque cancellation, and roll/pitch/yaw spatial rotations.',
-      navigateModuleAction: onNavigateModule7,
-      component: <RollPitchYawSimulator />
-    },
-    {
-      id: 'flight-modes',
-      name: 'Flight-Mode Playground',
-      shortName: 'Flight Modes',
-      tag: 'TIER 1 2D SIMULATOR',
-      badge: 'Autopilot',
-      icon: Sliders,
-      moduleNumber: 'Module 06',
-      moduleTitle: 'Flight Modes on UAV',
-      desc: 'Top-down mission simulation testing Loiter (GPS hold), Auto (waypoint track), Land, RTL (return-to-launch), and Altitude Hold flight controller behaviors.',
-      navigateModuleAction: onNavigateModule6,
-      component: <FlightModePlayground />
-    },
-    {
-      id: 'forces',
-      name: '4-Force Aerodynamic Balance',
-      shortName: 'Force Balance',
-      tag: 'TIER 1 PHYSICS SIMULATOR',
-      badge: 'Aerodynamics',
-      icon: Wind,
-      moduleNumber: 'Module 05',
-      moduleTitle: 'Fundamentals of UAV Flight Forces',
-      desc: 'Dynamic flight vector simulator computing Lift vs Weight and Thrust vs Drag in multirotor, fixed-wing, and hybrid VTOL aircraft.',
-      navigateModuleAction: onNavigateModule5,
-      component: <ForceBalanceSimulator />
+      id: 'battery',
+      name: 'Battery Pack S/P Calculator',
+      shortName: 'Battery S/P',
+      tag: 'POWER ENGINEERING TOOL',
+      badge: 'Power & LiPo',
+      icon: Battery,
+      moduleNumber: 'Module 03',
+      moduleTitle: 'Drone Components & Power',
+      desc: 'Compute total series voltage (S), parallel capacity (P), energy density (Wh), and continuous discharge ampacity for UAV propulsion battery packs.',
+      navigateModuleAction: onNavigateModule3,
+      component: <BatteryCalculator />
     },
     {
       id: 'sensor-fusion',
@@ -89,6 +63,45 @@ export default function SimulatorsHubView({
       component: <SensorFusionTool />
     },
     {
+      id: 'forces',
+      name: '4-Force Aerodynamic Balance',
+      shortName: 'Force Balance',
+      tag: 'TIER 1 PHYSICS SIMULATOR',
+      badge: 'Aerodynamics',
+      icon: Wind,
+      moduleNumber: 'Module 05',
+      moduleTitle: 'Fundamentals of UAV Flight Forces',
+      desc: 'Dynamic flight vector simulator computing Lift vs Weight and Thrust vs Drag in multirotor, fixed-wing, and hybrid VTOL aircraft.',
+      navigateModuleAction: onNavigateModule5,
+      component: <ForceBalanceSimulator />
+    },
+    {
+      id: 'flight-modes',
+      name: 'Flight-Mode Playground',
+      shortName: 'Flight Modes',
+      tag: 'TIER 1 2D SIMULATOR',
+      badge: 'Autopilot',
+      icon: Sliders,
+      moduleNumber: 'Module 06',
+      moduleTitle: 'Flight Modes on UAV',
+      desc: 'Top-down mission simulation testing Loiter (GPS hold), Auto (waypoint track), Land, RTL (return-to-launch), and Altitude Hold flight controller behaviors.',
+      navigateModuleAction: onNavigateModule6,
+      component: <FlightModePlayground />
+    },
+    {
+      id: 'rpy',
+      name: '3D Attitude Kinematics',
+      shortName: '3D Attitude',
+      tag: 'TIER 1 3D SIMULATOR',
+      badge: '3D Physics',
+      icon: RotateCw,
+      moduleNumber: 'Module 07',
+      moduleTitle: 'UAV Attitude & Axis Movement',
+      desc: 'Interactive Three.js 3D quadcopter simulating differential motor thrust, counter-torque cancellation, and roll/pitch/yaw spatial rotations.',
+      navigateModuleAction: onNavigateModule7,
+      component: <RollPitchYawSimulator />
+    },
+    {
       id: 'dgca',
       name: 'DGCA Zone & Altitude Distance Checker',
       shortName: 'DGCA Zones',
@@ -100,19 +113,6 @@ export default function SimulatorsHubView({
       desc: 'Statutory airspace calculator computing Green, Yellow, and Red zones, airport approach buffer altitudes, and ATC clearance rules based on distance.',
       navigateModuleAction: onNavigateModule8,
       component: <DGCAZoneChecker />
-    },
-    {
-      id: 'battery',
-      name: 'Battery Pack S/P Calculator',
-      shortName: 'Battery S/P',
-      tag: 'POWER ENGINEERING TOOL',
-      badge: 'Power & LiPo',
-      icon: Battery,
-      moduleNumber: 'Module 03',
-      moduleTitle: 'Drone Components & Power',
-      desc: 'Compute total series voltage (S), parallel capacity (P), energy density (Wh), and continuous discharge ampacity for UAV propulsion battery packs.',
-      navigateModuleAction: onNavigateModule3,
-      component: <BatteryCalculator />
     }
   ];
 

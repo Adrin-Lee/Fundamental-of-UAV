@@ -27,11 +27,11 @@ The **Asteria Drone Fundamentals Platform** is a modern, high-performance, inter
 | 4 Core   |   | 8 Learning        |              | 6 Interactive      | | Interactive       |
 | Tracks   |   | Modules           |              | Simulators & Tools | | Assessment Engine |
 +----------+   +-------------------+              +--------------------+ +-------------------+
-| 01. Lift |   | Mod 1: Intro & Terminology       | 1. 3D Attitude     | | 8x Module Quizzes |
-| 02. Ctrl |   | Mod 2: Types of Drones           | 2. 4-Force Balance | | (80 Questions,    |
-| 03. Nav  |   | Mod 3: Drone Components          | 3. Autopilot 2D Map| |  Instant Review & |
-| 04. Comp |   | Mod 4: FC & Sensor Fusion        | 4. Sensor Fusion   | |  Auto-Unlock)     |
-+----------+   | Mod 5: UAV Flight Forces         | 5. Battery Sizing  | |                   |
+| 01. Lift |   | Mod 1: Intro & Terminology       | 1. Battery Sizing  | | 8x Module Quizzes |
+| 02. Ctrl |   | Mod 2: Types of Drones           | 2. Sensor Fusion   | | (80 Questions,    |
+| 03. Nav  |   | Mod 3: Drone Components          | 3. 4-Force Balance | |  Instant Review & |
+| 04. Comp |   | Mod 4: FC & Sensor Fusion        | 4. Autopilot 2D Map| |  Auto-Unlock)     |
++----------+   | Mod 5: UAV Flight Forces         | 5. 3D Attitude     | |                   |
                | Mod 6: Flight Modes              | 6. DGCA Airspace   | | 1x Final Exam     |
                | Mod 7: Attitude Kinematics       +--------------------+ | (12 Questions,    |
                | Mod 8: DGCA Rules 2021                                | |  75% Pass Gate)   |
@@ -446,9 +446,72 @@ export const tracksData = [
 
 ## 7. Interactive Simulators & Engineering Tools Deep Dive
 
-The platform features 6 specialized interactive simulation tools engineered with real-time mathematical modeling.
+The platform features 6 specialized interactive simulation tools engineered with real-time mathematical modeling, organized sequentially according to module hierarchy.
 
-### 7.1 Tool 1: 3D Attitude Kinematics Simulator (`RollPitchYawSimulator.jsx`)
+### 7.1 Tool 1 (Module 03): LiPo Battery Configuration & Energy Calculator (`BatteryCalculator.jsx`)
+
+- **Calculation Engine:**
+  - Pack Voltage: $V_{\text{total}} = N_S \times V_{\text{cell}}$
+  - Pack Capacity: $C_{\text{total}} = N_P \times C_{\text{cell}}$
+  - Total Stored Energy: $E_{\text{Wh}} = \frac{V_{\text{total}} \times C_{\text{total}}}{1000}$
+  - Formatted Rating String: `"${S}S${P}P ${V}V ${Capacity}mAh"`
+- **Source Spec Benchmark Test:** Includes one-click test case loading the verified technical training example:
+  $$\text{6S2P Pack } (3.7\text{V}, 8000\text{mAh cells}) \implies 22.2\text{V}, 16000\text{mAh}, 355.2\text{ Wh} \quad (\text{Validated } \checkmark)$$
+
+---
+
+### 7.2 Tool 2 (Module 04): Sensor Fusion & Autopilot Degradation Simulator (`SensorFusionTool.jsx`)
+
+- **Sensor Channels:** 6 independent toggles: IMU, Gyroscope, Accelerometer, Magnetometer, Barometer, and GPS.
+- **Dependency Matrix Logic:**
+
+```javascript
+// Cascade logic: Disabling IMU automatically disables Gyro & Accel
+const isStabilizeOk = sensors.imu && sensors.gyro && sensors.accel;
+const isHeadingOk   = sensors.mag;
+const isAltitudeOk  = sensors.baro;
+const isPositionOk  = sensors.gps && isStabilizeOk;
+const isRthOk       = sensors.gps && isStabilizeOk && sensors.mag;
+```
+
+- **Autopilot Telemetry Outputs:**
+  1. *Flight Stabilization (Attitude & Leveling):* Requires IMU + Gyro + Accelerometer.
+  2. *Heading Hold (Yaw Alignment):* Requires Magnetometer (Compass).
+  3. *Altitude Hold (Height Lock):* Requires Barometer.
+  4. *Position Hold / Loiter (3D Coordinate Hover):* Requires GPS + Stabilization.
+  5. *Return-to-Home / RTH (Autonomous Failsafe):* Requires GPS + Magnetometer + Stabilization.
+
+---
+
+### 7.3 Tool 3 (Module 05): Aerodynamic 4-Force Vector Simulator (`ForceBalanceSimulator.jsx`)
+
+- **Physics Simulation Engine:**
+  - Models the continuous interplay of Lift ($L$), Weight ($W$), Thrust ($T$), and Drag ($D$).
+  - Vertical acceleration: $a_y = \frac{L - W}{m}$
+  - Horizontal acceleration: $a_x = \frac{T - D}{m}$
+- **Flight Regime Presets:**
+  - *Steady Hover:* $L = 100\%$, $W = 100\%$, $T = 0\%$, $D = 0\% \implies \text{Net Equilibrium}$.
+  - *Vertical Climb:* $L = 140\%$, $W = 100\% \implies \text{Positive Climb Rate } (+4.2\text{ m/s})$.
+  - *High-Speed Cruise:* $L = 100\%$, $W = 100\%$, $T = 120\%$, $D = 120\% \implies \text{Constant Airspeed } (85\text{ km/h})$.
+  - *Stall / Rapid Descent:* $L = 40\%$, $W = 100\% \implies \text{Sink Rate } (-6.5\text{ m/s})$.
+- **Vector HUD:** Dynamic SVG coordinate plane rendering proportional force arrows with magnitude labels.
+
+---
+
+### 7.4 Tool 4 (Module 06): 2D Autopilot Mission Playground (`FlightModePlayground.jsx`)
+
+- **Architecture:** Top-down SVG vector airbase map rendering an autonomous drone navigating through 4 GPS waypoints (Alpha $\to$ Bravo $\to$ Charlie $\to$ Delta).
+- **Simulation State Machine:**
+  - `IDLE`: Drone stationary at home base.
+  - `AUTO_MISSION`: Autopilot interpolates $(x, y)$ coordinates toward the active waypoint target.
+  - `LOITER_HOVER`: Drone freezes in 2D space, holding position with subtle GPS atmospheric drift jitter.
+  - `RTL_FAILSAFE`: Autopilot computes direct heading vector back to $(0, 0)$ Home Base and initiates emergency return.
+  - `LANDING`: Drone executes touchdown sequence at the current coordinate.
+- **Telemetry HUD:** Live latitude/longitude coordinate readouts, ground speed, battery voltage percentage, and waypoint target index.
+
+---
+
+### 7.5 Tool 5 (Module 07): 3D Attitude Kinematics Simulator (`RollPitchYawSimulator.jsx`)
 
 ```
    Roll (X-Axis): Left/Right Tilt        Pitch (Y-Axis): Nose Up/Down        Yaw (Z-Axis): Heading Rotate
@@ -474,70 +537,7 @@ The platform features 6 specialized interactive simulation tools engineered with
 
 ---
 
-### 7.2 Tool 2: Aerodynamic 4-Force Vector Simulator (`ForceBalanceSimulator.jsx`)
-
-- **Physics Simulation Engine:**
-  - Models the continuous interplay of Lift ($L$), Weight ($W$), Thrust ($T$), and Drag ($D$).
-  - Vertical acceleration: $a_y = \frac{L - W}{m}$
-  - Horizontal acceleration: $a_x = \frac{T - D}{m}$
-- **Flight Regime Presets:**
-  - *Steady Hover:* $L = 100\%$, $W = 100\%$, $T = 0\%$, $D = 0\% \implies \text{Net Equilibrium}$.
-  - *Vertical Climb:* $L = 140\%$, $W = 100\% \implies \text{Positive Climb Rate } (+4.2\text{ m/s})$.
-  - *High-Speed Cruise:* $L = 100\%$, $W = 100\%$, $T = 120\%$, $D = 120\% \implies \text{Constant Airspeed } (85\text{ km/h})$.
-  - *Stall / Rapid Descent:* $L = 40\%$, $W = 100\% \implies \text{Sink Rate } (-6.5\text{ m/s})$.
-- **Vector HUD:** Dynamic SVG coordinate plane rendering proportional force arrows with magnitude labels.
-
----
-
-### 7.3 Tool 3: 2D Autopilot Mission Playground (`FlightModePlayground.jsx`)
-
-- **Architecture:** Top-down SVG vector airbase map rendering an autonomous drone navigating through 4 GPS waypoints (Alpha $\to$ Bravo $\to$ Charlie $\to$ Delta).
-- **Simulation State Machine:**
-  - `IDLE`: Drone stationary at home base.
-  - `AUTO_MISSION`: Autopilot interpolates $(x, y)$ coordinates toward the active waypoint target.
-  - `LOITER_HOVER`: Drone freezes in 2D space, holding position with subtle GPS atmospheric drift jitter.
-  - `RTL_FAILSAFE`: Autopilot computes direct heading vector back to $(0, 0)$ Home Base and initiates emergency return.
-  - `LANDING`: Drone executes touchdown sequence at the current coordinate.
-- **Telemetry HUD:** Live latitude/longitude coordinate readouts, ground speed, battery voltage percentage, and waypoint target index.
-
----
-
-### 7.4 Tool 4: Sensor Fusion & Autopilot Degradation Simulator (`SensorFusionTool.jsx`)
-
-- **Sensor Channels:** 6 independent toggles: IMU, Gyroscope, Accelerometer, Magnetometer, Barometer, and GPS.
-- **Dependency Matrix Logic:**
-
-```javascript
-// Cascade logic: Disabling IMU automatically disables Gyro & Accel
-const isStabilizeOk = sensors.imu && sensors.gyro && sensors.accel;
-const isHeadingOk   = sensors.mag;
-const isAltitudeOk  = sensors.baro;
-const isPositionOk  = sensors.gps && isStabilizeOk;
-const isRthOk       = sensors.gps && isStabilizeOk && sensors.mag;
-```
-
-- **Autopilot Telemetry Outputs:**
-  1. *Flight Stabilization (Attitude & Leveling):* Requires IMU + Gyro + Accelerometer.
-  2. *Heading Hold (Yaw Alignment):* Requires Magnetometer (Compass).
-  3. *Altitude Hold (Height Lock):* Requires Barometer.
-  4. *Position Hold / Loiter (3D Coordinate Hover):* Requires GPS + Stabilization.
-  5. *Return-to-Home / RTH (Autonomous Failsafe):* Requires GPS + Magnetometer + Stabilization.
-
----
-
-### 7.5 Tool 5: LiPo Battery Configuration & Energy Calculator (`BatteryCalculator.jsx`)
-
-- **Calculation Engine:**
-  - Pack Voltage: $V_{\text{total}} = N_S \times V_{\text{cell}}$
-  - Pack Capacity: $C_{\text{total}} = N_P \times C_{\text{cell}}$
-  - Total Stored Energy: $E_{\text{Wh}} = \frac{V_{\text{total}} \times C_{\text{total}}}{1000}$
-  - Formatted Rating String: `"${S}S${P}P ${V}V ${Capacity}mAh"`
-- **Source Spec Benchmark Test:** Includes one-click test case loading the verified technical training example:
-  $$\text{6S2P Pack } (3.7\text{V}, 8000\text{mAh cells}) \implies 22.2\text{V}, 16000\text{mAh}, 355.2\text{ Wh} \quad (\text{Validated } \checkmark)$$
-
----
-
-### 7.6 Tool 6: DGCA Airspace Zone & Clearance Checker (`DGCAZoneChecker.jsx`)
+### 7.6 Tool 6 (Module 08): DGCA Airspace Zone & Clearance Checker (`DGCAZoneChecker.jsx`)
 
 - **Classification Rules Engine:**
   - $0 \le d < 5\text{ km}$: **Red Zone** (Airport perimeter). Ground prohibited (Max Altitude: $0\text{ m}$). *Strictly prohibited without Central Government special clearance.*
