@@ -24,24 +24,24 @@ The **Asteria Drone Fundamentals Platform** is a modern, high-performance, inter
      |                   |                                   |             |
      v                   v                                   v             v
 +----------+   +-------------------+              +--------------------+ +-------------------+
-| 4 Core   |   | 8 Learning        |              | 6 Interactive      | | Dual-Tier         |
+| 4 Core   |   | 8 Learning        |              | 6 Interactive      | | Interactive       |
 | Tracks   |   | Modules           |              | Simulators & Tools | | Assessment Engine |
 +----------+   +-------------------+              +--------------------+ +-------------------+
 | 01. Lift |   | Mod 1: Intro & Terminology       | 1. 3D Attitude     | | 8x Module Quizzes |
 | 02. Ctrl |   | Mod 2: Types of Drones           | 2. 4-Force Balance | | (80 Questions,    |
-| 03. Nav  |   | Mod 3: Drone Components          | 3. Autopilot 2D Map| |  80% Pass Gate)   |
-| 04. Comp |   | Mod 4: FC & Sensor Fusion        | 4. Sensor Fusion   | |                   |
-+----------+   | Mod 5: UAV Flight Forces         | 5. Battery Sizing  | | 1x Final Exam     |
-               | Mod 6: Flight Modes              | 6. DGCA Airspace   | | (12 Questions,    |
-               | Mod 7: Attitude Kinematics       +--------------------+ |  75% Pass Gate)   |
-               | Mod 8: DGCA Rules 2021                                +-------------------+
-               +-------------------------------------------------------+
+| 03. Nav  |   | Mod 3: Drone Components          | 3. Autopilot 2D Map| |  Instant Review & |
+| 04. Comp |   | Mod 4: FC & Sensor Fusion        | 4. Sensor Fusion   | |  Auto-Unlock)     |
++----------+   | Mod 5: UAV Flight Forces         | 5. Battery Sizing  | |                   |
+               | Mod 6: Flight Modes              | 6. DGCA Airspace   | | 1x Final Exam     |
+               | Mod 7: Attitude Kinematics       +--------------------+ | (12 Questions,    |
+               | Mod 8: DGCA Rules 2021                                | |  75% Pass Gate)   |
+               +-------------------------------------------------------+ +-------------------+
 ```
 
 ### Core Value Propositions
 1. **Curriculum Hierarchy:** 4 sequential learning tracks containing 8 exhaustive study modules aligned with industry standard UAV engineering syllabi.
 2. **Interactive 3D & Vector Simulators:** Real-time WebGL attitude gimbals, aerodynamic vector balance physics, 2D top-down autopilot mission playgrounds, battery pack calculators, ESC form-factor selectors, and DGCA airspace proximity checkers.
-3. **Rigorous Knowledge Assessment:** 80 module-level multiple choice questions (10 per module: 4 core definitions + 6 tricky engineering scenarios) enforcing an 80% passing threshold, culminating in a 12-question final certification examination.
+3. **Comprehensive Knowledge Assessment & Review:** 80 module-level multiple choice questions (10 per module: 4 core definitions + 6 tricky engineering scenarios) providing instant submission feedback, clear red/green color-coded answer reviews, detailed technical rationales, and automatic module progression upon submission.
 4. **Zero-Latency Client-Side State:** Hash-based SPA router with instant transitions and persistent browser storage (`localStorage`) tracking module completions, glossary flashcard mastery, and certification status.
 
 ---
@@ -256,7 +256,7 @@ The application state persists seamlessly without requiring an external backend 
 
 | Storage Key | Format | Type | Description |
 | :--- | :--- | :--- | :--- |
-| `asteria_module_{moduleId}` | String (`"completed"`) | Boolean Flag | Set when a user scores $\ge 80\%$ on that module's assessment. |
+| `asteria_module_{moduleId}` | String (`"completed"`) | Boolean Flag | Set when a user submits that module's assessment or passes the final exam. |
 | `learning_{moduleId}` | String (`"completed"`) | Boolean Flag | Set when a user clicks "Mark Study Material Complete" in a module. |
 | `asteria_glossary_progress` | JSON Object (`{"termId": true}`) | Key-Value Map | Tracks mastered technical glossary flashcard terms. |
 
@@ -549,7 +549,7 @@ const isRthOk       = sensors.gps && isStabilizeOk && sensors.mag;
 
 ## 8. Assessment & Certification System
 
-The platform features an assessment engine designed to test theoretical knowledge and applied scenario comprehension.
+The platform features an assessment engine designed to reinforce theoretical knowledge and applied engineering comprehension through instant feedback, color-coded visual reviews, and progressive module unlocking.
 
 ```
 +-----------------------------------------------------------------------------------------+
@@ -573,42 +573,55 @@ The platform features an assessment engine designed to test theoretical knowledg
                          | Score = CorrectCount / TotalCount     |
                          +---------------------------------------+
                                              |
-                     +-----------------------+-----------------------+
-                     |                                               |
-                     v                                               v
-    +----------------------------------+            +----------------------------------+
-    | Score >= 80% (Passed)            |            | Score < 80% (Failed)             |
-    +----------------------------------+            +----------------------------------+
-    | 1. Store:                        |            | 1. Show Review Banner (Red)      |
-    |    localStorage.setItem(         |            | 2. Highlight Incorrect Choices   |
-    |      'asteria_module_{id}',      |            | 3. Reveal Detailed Explanations  |
-    |      'completed')                |            | 4. User clicks "Retake Quiz"     |
-    | 2. Unlock Next Module in sequence|            +----------------------------------+
-    | 3. Reveal Technical Rationales   |
-    +----------------------------------+
+                                             v
+                         +---------------------------------------+
+                         | 1. Auto-Persist Completion:           |
+                         |    localStorage.setItem(              |
+                         |      'asteria_module_{id}',           |
+                         |      'completed')                     |
+                         | 2. Display Result Banner & Score      |
+                         | 3. Visual Answer Review:              |
+                         |    - Correct Answers: GREEN           |
+                         |    - Wrong User Selections: RED       |
+                         | 4. Reveal Technical Explanations      |
+                         | 5. Enable "Proceed to Next Module"    |
+                         |    & "Retake Assessment" Buttons      |
+                         +---------------------------------------+
 ```
 
 ### 8.1 80-Question Module Assessment Matrix
 
-Every module contains 10 rigorously authored questions:
+Every module contains 10 rigorously authored questions (available both as an inline module card and as a dedicated full-page assessment runner):
 
-| Module Number & Title | Total Questions | Core Concept Qs | Tricky / Scenario Qs | Pass Mark |
-| :--- | :---: | :---: | :---: | :---: |
-| **Module 1:** Intro & Drone Terminology | 10 | 4 | 6 | 8/10 (80%) |
-| **Module 2:** Types of Drones & Architectures | 10 | 4 | 6 | 8/10 (80%) |
-| **Module 3:** Components & Propulsion Systems | 10 | 4 | 6 | 8/10 (80%) |
-| **Module 4:** Flight Controller & Sensor Fusion | 10 | 4 | 6 | 8/10 (80%) |
-| **Module 5:** Fundamentals of Flight Forces | 10 | 4 | 6 | 8/10 (80%) |
-| **Module 6:** Flight Modes on UAV | 10 | 4 | 6 | 8/10 (80%) |
-| **Module 7:** UAV Attitude & Axis Movement | 10 | 4 | 6 | 8/10 (80%) |
-| **Module 8:** DGCA Regulations & Airspace | 10 | 4 | 6 | 8/10 (80%) |
-| **Total** | **80** | **32** | **48** | **80% per module** |
+| Module Number & Title | Total Questions | Core Concept Qs | Tricky / Scenario Qs | Evaluation & Feedback Flow |
+| :--- | :---: | :---: | :---: | :--- |
+| **Module 1:** Intro & Drone Terminology | 10 | 4 | 6 | Instant score, red/green review, auto-unlocks Mod 2 |
+| **Module 2:** Types of Drones & Architectures | 10 | 4 | 6 | Instant score, red/green review, auto-unlocks Mod 3 |
+| **Module 3:** Components & Propulsion Systems | 10 | 4 | 6 | Instant score, red/green review, auto-unlocks Mod 4 |
+| **Module 4:** Flight Controller & Sensor Fusion | 10 | 4 | 6 | Instant score, red/green review, auto-unlocks Mod 5 |
+| **Module 5:** Fundamentals of Flight Forces | 10 | 4 | 6 | Instant score, red/green review, auto-unlocks Mod 6 |
+| **Module 6:** Flight Modes on UAV | 10 | 4 | 6 | Instant score, red/green review, auto-unlocks Mod 7 |
+| **Module 7:** UAV Attitude & Axis Movement | 10 | 4 | 6 | Instant score, red/green review, auto-unlocks Mod 8 |
+| **Module 8:** DGCA Regulations & Airspace | 10 | 4 | 6 | Instant score, red/green review, auto-unlocks Final Exam |
+| **Total** | **80** | **32** | **48** | **Instant submission review & progression** |
 
-### 8.2 Final Certification Examination (`FinalAssessment.jsx`)
+### 8.2 Color-Coded Answer Review Styling & Semantics
+
+Upon form submission, options dynamically apply the following status styles:
+- **Correct Answer (`isActualCorrect`):**
+  - Container Style: `bg-[#ECFDF5] border-[#059669] text-[#065F46] font-semibold ring-2 ring-[#059669]/40`
+  - Badge Indicator: `CheckCircle` icon with label `"Your Answer (Correct)"` (if chosen) or `"Correct Answer"`.
+- **Incorrect User Selection (`isChosenWrong`):**
+  - Container Style: `bg-[#FEF2F2] border-[#DC2626] text-[#991B1B] font-semibold ring-2 ring-[#DC2626]/40`
+  - Badge Indicator: `XCircle` icon with label `"Your Answer (Incorrect)"`.
+- **Unselected Neutral Options:** Dimmed to `opacity-60` for clear visual contrast.
+- **Technical Rationales:** An in-depth engineering explanation card is revealed below every question detailing the aeronautical or regulatory basis.
+
+### 8.3 Final Certification Examination (`FinalAssessment.jsx`)
 - **Access Gate:** The final exam verifies that `asteria_module_mod-dgca-rules` is marked as completed in `localStorage`. If incomplete, a warning lockout screen appears directing the user to finish the prerequisites.
 - **Exam Structure:** 12 multi-disciplinary questions synthesizing aerodynamics, battery sizing math, sensor fusion cascades, failsafe protocols, and DGCA legal liabilities.
-- **Passing Threshold:** $75\%$ (9 out of 12 correct answers).
-- **Certificate Generator:** Passing the exam renders a printable, tamper-evident digital certificate complete with candidate timestamp, percentage score, and verification badge.
+- **Passing Threshold:** $75\%$ (9 out of 12 correct answers required for digital certificate issuance).
+- **Certificate Generator:** Passing the final certification examination renders a printable, tamper-evident digital certificate complete with candidate timestamp, percentage score, and verification badge.
 
 ---
 
