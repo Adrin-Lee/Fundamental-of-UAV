@@ -33,7 +33,7 @@ The **Asteria Drone Fundamentals Platform** is a modern, high-performance, inter
 | 04. Comp |   | Mod 4: FC & Sensor Fusion        | 4. Autopilot 2D Map| |  Auto-Unlock)     |
 +----------+   | Mod 5: UAV Flight Forces         | 5. 3D Attitude     | |                   |
                | Mod 6: Flight Modes              | 6. DGCA Airspace   | | 1x Final Exam     |
-               | Mod 7: Attitude Kinematics       +--------------------+ | (12 Questions,    |
+               | Mod 7: Attitude Kinematics       +--------------------+ | (30 Questions,    |
                | Mod 8: DGCA Rules 2021                                | |  75% Pass Gate)   |
                +-------------------------------------------------------+ +-------------------+
 ```
@@ -619,8 +619,8 @@ Upon form submission, options dynamically apply the following status styles:
 
 ### 8.3 Final Certification Examination (`FinalAssessment.jsx`)
 - **Access Gate:** The final exam verifies that `asteria_module_mod-dgca-rules` is marked as completed in `localStorage`. If incomplete, a warning lockout screen appears directing the user to finish the prerequisites.
-- **Exam Structure:** 12 multi-disciplinary questions synthesizing aerodynamics, battery sizing math, sensor fusion cascades, failsafe protocols, and DGCA legal liabilities.
-- **Passing Threshold:** $75\%$ (9 out of 12 correct answers required for digital certificate issuance).
+- **Exam Structure:** 30 comprehensive questions spanning all 8 modules (Lift, Propulsion, Avionics, Flight Forces, Autonomous Modes, Kinematics, and DGCA Regulations), each carrying an equal weightage of 1 Mark (Total: 30 Marks).
+- **Passing Threshold:** $75\%$ (23 out of 30 correct answers required for digital certificate issuance).
 - **Certificate Generator:** Passing the final certification examination renders a printable, tamper-evident digital certificate complete with candidate timestamp, percentage score, and verification badge.
 
 ---
