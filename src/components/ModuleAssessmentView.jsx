@@ -74,9 +74,12 @@ export default function ModuleAssessmentView({
     // Automatically mark module completed upon submission
     try {
       localStorage.setItem(`asteria_module_${moduleId}`, 'completed');
+      localStorage.setItem(`learning_${moduleId}`, 'completed');
       if (moduleId === 'mod-drone-types' || moduleId === 'mod-types-of-drones') {
         localStorage.setItem('asteria_module_mod-drone-types', 'completed');
         localStorage.setItem('asteria_module_mod-types-of-drones', 'completed');
+        localStorage.setItem('learning_mod-drone-types', 'completed');
+        localStorage.setItem('learning_mod-types-of-drones', 'completed');
       }
     } catch (err) {
       console.warn('Could not persist assessment completion', err);
@@ -216,9 +219,9 @@ export default function ModuleAssessmentView({
                   <button
                     type="button"
                     onClick={onNavigateNextModule}
-                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#059669] text-white font-display text-sm font-bold shadow-brand hover:bg-[#047857] transition-all"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#059669] text-white font-display text-sm font-bold shadow-brand hover:bg-[#047857] transition-all cursor-pointer"
                   >
-                    <span>Proceed to Next Module</span>
+                    <span>{moduleId === 'mod-dgca-rules' ? 'Proceed to Final Exam (30 Qs)' : 'Proceed to Next Module'}</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 )}
@@ -422,9 +425,9 @@ export default function ModuleAssessmentView({
                 <button
                   type="button"
                   onClick={onNavigateNextModule}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold font-display text-white bg-[#059669] hover:bg-[#047857] shadow-brand transition-all"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold font-display text-white bg-[#059669] hover:bg-[#047857] shadow-brand transition-all cursor-pointer"
                 >
-                  <span>Proceed to Next Module</span>
+                  <span>{moduleId === 'mod-dgca-rules' ? 'Proceed to Final Certification Exam (30 Qs)' : 'Proceed to Next Module'}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               )}

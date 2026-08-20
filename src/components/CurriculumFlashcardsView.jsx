@@ -569,7 +569,7 @@ export default function CurriculumFlashcardsView({
                   Take Final Certification Exam
                 </h3>
                 <p className="font-body text-xs text-[#047857] leading-relaxed">
-                  You've unlocked the certification exam! Complete the 12-question comprehensive examination to earn your drone fundamentals certificate.
+                  You've unlocked the certification exam! Complete the 30-question comprehensive examination to earn your drone fundamentals certificate.
                 </p>
               </div>
 
@@ -578,7 +578,7 @@ export default function CurriculumFlashcardsView({
                 onClick={onNavigateFinalAssessment}
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#059669] hover:bg-[#047857] text-white font-display text-xs font-bold shadow-brand transition-all self-start"
               >
-                <span>Take Final Exam</span>
+                <span>Take Final Exam (30 Qs)</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -592,7 +592,7 @@ export default function CurriculumFlashcardsView({
                   Final Certification Exam (Locked)
                 </h3>
                 <p className="font-body text-xs text-[var(--text-muted)] leading-relaxed">
-                  Complete and mark all 8 modules as completed to unlock the comprehensive 12-question final certification examination.
+                  Complete and submit all 8 module assessments to unlock the comprehensive 30-question final certification examination.
                 </p>
               </div>
 

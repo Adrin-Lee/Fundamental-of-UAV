@@ -1225,3 +1225,7 @@ export const moduleAssessmentsData = {
     ]
   }
 };
+
+// Aliases for interchangeable module ID routing
+moduleAssessmentsData["mod-drone-types"] = moduleAssessmentsData["mod-types-of-drones"];
+

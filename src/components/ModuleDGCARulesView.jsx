@@ -126,20 +126,15 @@ export default function ModuleDGCARulesView({ onNavigateHome, onNavigatePrev, on
               <Check className="w-4 h-4 text-[#047857]" />
               <span>Module 8 Completed ✓</span>
             </div>
-          ) : learningCompleted ? (
+          ) : (
             <button
               type="button"
               onClick={onNavigateAssessment}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold font-body bg-[#E0F2FE] text-[#0369A1] border border-[#BAE6FD] hover:bg-[#0284C7] hover:text-white transition-all shadow-xs"
             >
               <Award className="w-3.5 h-3.5" />
-              <span>Take Knowledge Assessment</span>
+              <span>Take Knowledge Assessment (10 Qs)</span>
             </button>
-          ) : (
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold font-body bg-[var(--bg-elevated)] text-[var(--text-secondary)] border border-[var(--divider)] shadow-2xs">
-              <BookOpen className="w-3.5 h-3.5 text-[var(--accent-signal)]" />
-              <span>Learning in Progress</span>
-            </div>
           )}
         </div>
 
@@ -601,53 +596,41 @@ export default function ModuleDGCARulesView({ onNavigateHome, onNavigatePrev, on
             <span>Previous: Module 7</span>
           </button>
 
-          {/* Dynamic Learning & Assessment Action Button */}
-          {!learningCompleted ? (
-            <div className="w-full sm:w-auto flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              <button
-                type="button"
-                onClick={handleMarkLearningComplete}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold font-display text-white bg-[var(--accent-signal)] hover:bg-[var(--accent-signal-deep)] shadow-brand transition-all focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"
-              >
-                <CheckCircle className="w-4 h-4 text-white" />
-                <span>Mark Learning Completed</span>
-              </button>
-              <span className="font-mono text-xs text-[var(--text-muted)]">
-                Mark learning complete to unlock Assessment
-              </span>
-            </div>
-          ) : (
-            <div className="w-full sm:w-auto flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              <button
-                type="button"
-                onClick={onNavigateAssessment}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold font-display text-white bg-[#0284C7] hover:bg-[#0369A1] shadow-brand transition-all focus-visible:ring-2 focus-visible:ring-[#0284C7]"
-              >
-                <Award className="w-4 h-4 text-white" />
-                <span>Take Module Assessment (10 Qs)</span>
-                <ArrowRight className="w-4 h-4 text-white" />
-              </button>
-              <span className="font-mono text-xs text-[var(--text-muted)]">
-                {isAssessmentPassed ? 'Assessment Completed ✓ · Click to Retake' : 'Submit assessment to unlock Final Assessment'}
-              </span>
-            </div>
-          )}
+          {/* Assessment Action Button */}
+          <div className="w-full sm:w-auto flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <button
+              type="button"
+              onClick={onNavigateAssessment}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold font-display text-white bg-[#0284C7] hover:bg-[#0369A1] shadow-brand transition-all focus-visible:ring-2 focus-visible:ring-[#0284C7]"
+            >
+              <Award className="w-4 h-4 text-white" />
+              <span>{isAssessmentPassed ? 'Retake Module Assessment (10 Qs)' : 'Take Module Assessment (10 Qs)'}</span>
+              <ArrowRight className="w-4 h-4 text-white" />
+            </button>
+            <span className="font-mono text-xs text-[var(--text-muted)]">
+              {isAssessmentPassed ? 'Module 8 Completed ✓ · Score Saved' : 'Submit assessment to unlock Final Assessment'}
+            </span>
+          </div>
 
-          {/* Proceed to Final Assessment Link - SHOWN AFTER SUBMITTING ASSESSMENT */}
+          {/* Proceed to Final Assessment Link */}
           {isAssessmentPassed ? (
             <button
               type="button"
               onClick={onNavigateFinalAssessment}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold font-display text-white bg-[#059669] hover:bg-[#047857] shadow-brand transition-all focus-visible:ring-2 focus-visible:ring-[#059669]"
             >
-              <span>Proceed to Final Assessment</span>
+              <span>Proceed to Final Assessment (30 Qs)</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           ) : (
-            <div className="w-full sm:w-auto p-3.5 px-5 rounded-2xl bg-[var(--bg-elevated)] border border-dashed border-[var(--divider)] flex items-center justify-center gap-2 text-xs font-mono text-[var(--text-muted)]">
-              <Lock className="w-3.5 h-3.5 text-[var(--text-muted)] shrink-0" />
-              <span>Submit assessment to unlock <strong>Final Certification Assessment</strong></span>
-            </div>
+            <button
+              type="button"
+              onClick={onNavigateAssessment}
+              className="w-full sm:w-auto p-3.5 px-6 rounded-2xl bg-[var(--bg-elevated)] border border-[var(--accent-signal)] hover:bg-[var(--accent-signal-subtle)] text-[var(--accent-signal)] flex items-center justify-center sm:justify-end gap-2 text-xs font-mono font-bold transition-all shadow-xs cursor-pointer"
+            >
+              <Lock className="w-3.5 h-3.5 shrink-0" />
+              <span>Submit Assessment to Unlock <strong>Final Certification Assessment</strong> →</span>
+            </button>
           )}
 
         </footer>
