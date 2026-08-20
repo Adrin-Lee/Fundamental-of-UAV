@@ -29,7 +29,16 @@ export default function CurriculumMatrix({
 }) {
   const getCompletionStatus = (modId) => {
     try {
-      return localStorage.getItem(`asteria_module_${modId}`) === 'completed';
+      if (modId === 'mod-types-of-drones' || modId === 'mod-drone-types') {
+        return (
+          localStorage.getItem('asteria_module_mod-types-of-drones') === 'completed' ||
+          localStorage.getItem('asteria_module_mod-drone-types') === 'completed' ||
+          localStorage.getItem('learning_mod-types-of-drones') === 'completed' ||
+          localStorage.getItem('learning_mod-drone-types') === 'completed'
+        );
+      }
+      return localStorage.getItem(`asteria_module_${modId}`) === 'completed' ||
+             localStorage.getItem(`learning_${modId}`) === 'completed';
     } catch {
       return false;
     }
