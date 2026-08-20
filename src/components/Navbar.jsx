@@ -18,16 +18,13 @@ export default function Navbar({
           className="flex items-center gap-3 group text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] rounded-md"
           aria-label="Drone Fundamentals Home"
         >
-          {/* Geometric Star Icon */}
-          <div className="w-9 h-9 flex items-center justify-center bg-[var(--accent-signal)] rounded-lg text-white font-display font-bold shadow-sm transition-transform group-hover:scale-105">
-            <svg 
-              className="w-5 h-5 fill-current" 
-              viewBox="0 0 24 24" 
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-            </svg>
+          {/* Asteria Logo Mark */}
+          <div className="w-9 h-9 flex items-center justify-center rounded-full overflow-hidden shadow-xs transition-transform group-hover:scale-105 bg-white border border-[var(--divider)]">
+            <img 
+              src="/images/asteria-logo-mark.png" 
+              alt="Asteria Logo" 
+              className="w-full h-full object-contain"
+            />
           </div>
           
           <div className="flex flex-col leading-tight">
@@ -35,7 +32,7 @@ export default function Navbar({
               Drone Fundamentals
             </span>
             <span className="font-mono text-[10px] tracking-wider text-[var(--text-muted)] uppercase font-semibold">
-              Training Portal · v1.0
+              Internal Training Portal
             </span>
           </div>
         </button>
@@ -97,12 +94,13 @@ export default function Navbar({
 
         </nav>
 
-        {/* Right: Clean minimal status badge */}
-        <div className="hidden sm:flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#10B981]" />
-          <span className="font-mono text-[11px] text-[var(--text-muted)] font-semibold uppercase">
-            Internal Training
-          </span>
+        {/* Right: Asteria Aerospace Logo */}
+        <div className="hidden sm:flex items-center pl-2">
+          <img 
+            src="/images/asteria-aerospace-logo.png" 
+            alt="Asteria Aerospace" 
+            className="h-8 sm:h-9 w-auto object-contain"
+          />
         </div>
 
       </div>
