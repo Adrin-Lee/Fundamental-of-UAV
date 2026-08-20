@@ -296,12 +296,12 @@ export default function RollPitchYawSimulator() {
         if (reducedMotion) {
           // Instant snaps
           droneGroupRef.current.rotation.z = -targetRoll;
-          droneGroupRef.current.rotation.x = -targetPitch;
+          droneGroupRef.current.rotation.x = targetPitch;
           droneGroupRef.current.rotation.y = -accumulatedYaw;
         } else {
           // Smooth Lerp
           droneGroupRef.current.rotation.z += (-targetRoll - droneGroupRef.current.rotation.z) * 0.1;
-          droneGroupRef.current.rotation.x += (-targetPitch - droneGroupRef.current.rotation.x) * 0.1;
+          droneGroupRef.current.rotation.x += (targetPitch - droneGroupRef.current.rotation.x) * 0.1;
           droneGroupRef.current.rotation.y += (-accumulatedYaw - droneGroupRef.current.rotation.y) * 0.1;
         }
       }

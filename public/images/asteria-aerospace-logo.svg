@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 70" width="320" height="70">
+  <defs>
+    <linearGradient id="asteriaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E56B1" />
+      <stop offset="100%" stop-color="#163C7F" />
+    </linearGradient>
+  </defs>
+
+  <!-- Vector Circular Emblem -->
+  <g transform="translate(5, 5)">
+    <!-- Main Solid Blue Circle -->
+    <circle cx="30" cy="30" r="28" fill="url(#asteriaGrad)" />
+
+    <!-- Stylized 'A' and Swoop Jet Path -->
+    <!-- Left Leg of A -->
+    <path d="M 23 44 L 28 17 L 33 17 L 26 44 Z" fill="#FFFFFF" />
+    <!-- Right Leg of A -->
+    <path d="M 29 17 L 34 17 L 41 44 L 36 44 Z" fill="#FFFFFF" />
+    
+    <!-- Dynamic Wing Swoop intersecting the A -->
+    <path d="M 12 39 C 18 36, 26 31, 48 20 C 40 25, 28 32, 19 39 Z" fill="#FFFFFF" />
+    <path d="M 15 41 C 24 37, 34 30, 48 22 C 37 28, 26 34, 15 41 Z" fill="#FFFFFF" />
+  </g>
+
+  <!-- High-Precision Brand Typography -->
+  <!-- "asteria" -->
+  <text 
+    x="76" 
+    y="38" 
+    font-family="'Inter', 'Outfit', system-ui, -apple-system, sans-serif" 
+    font-size="30" 
+    font-weight="700" 
+    fill="#1A4A9F" 
+    letter-spacing="-0.6px"
+  >asteria</text>
+  
+  <!-- "aerospace" -->
+  <text 
+    x="77" 
+    y="55" 
+    font-family="'Inter', 'Outfit', system-ui, -apple-system, sans-serif" 
+    font-size="16" 
+    font-weight="500" 
+    fill="#3B82F6" 
+    letter-spacing="0.4px"
+  >aerospace</text>
+</svg>

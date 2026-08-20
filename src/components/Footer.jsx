@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, ShieldCheck, Heart } from 'lucide-react';
+import { ExternalLink, ShieldCheck, Code2 } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -51,10 +51,17 @@ export default function Footer() {
 
         </div>
 
-        {/* Copyright and Meta Bar */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-[var(--text-muted)] gap-3">
-          <span>© {new Date().getFullYear()} Drone Fundamentals. All Rights Reserved.</span>
-          <span>Drone Fundamentals Platform · Version 1.0.0</span>
+        {/* Copyright, Developer Signature and Meta Bar */}
+        <div className="pt-6 flex flex-col md:flex-row items-center justify-between text-xs font-mono text-[var(--text-muted)] gap-3">
+          <div className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-3 text-center sm:text-left">
+            <span>© {new Date().getFullYear()} Drone Fundamentals. All Rights Reserved.</span>
+            <span className="hidden sm:inline text-[var(--divider)]">|</span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[var(--bg-elevated)] border border-[var(--divider)] text-[var(--text-secondary)]">
+              <Code2 className="w-3.5 h-3.5 text-[var(--accent-signal)]" />
+              <span>Developed by <strong className="text-[var(--accent-signal)] font-bold">Suryajayan Alex</strong></span>
+            </span>
+          </div>
+          <span className="text-[11px]">Drone Fundamentals Platform · Version 1.0.0</span>
         </div>
 
       </div>
