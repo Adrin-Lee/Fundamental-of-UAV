@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { RotateCw, CheckCircle2, RefreshCcw, Sparkles, Filter, Search, Check } from 'lucide-react';
 import { glossaryTermsData } from '../data/curriculumData';
 
-export default function GlossaryFlashcards({ className = "" }) {
+export default function GlossaryFlashcards({ className = "", onMasteryChange }) {
   const [flippedCards, setFlippedCards] = useState({});
   const [masteredTerms, setMasteredTerms] = useState(() => {
     try {
@@ -13,16 +13,25 @@ export default function GlossaryFlashcards({ className = "" }) {
     }
   });
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState('aerodynamics');
 
-  // Save mastery progress to localStorage
+  // Save mastery progress to localStorage & notify parent
   useEffect(() => {
     try {
       localStorage.setItem('asteria_glossary_progress', JSON.stringify(masteredTerms));
     } catch (e) {
       console.warn('Unable to persist glossary progress to localStorage', e);
     }
-  }, [masteredTerms]);
+    if (onMasteryChange) {
+      const masteredCount = Object.keys(masteredTerms).length;
+      const totalCount = glossaryTermsData.length;
+      onMasteryChange({
+        masteredCount,
+        totalCount,
+        isAllMastered: masteredCount >= totalCount
+      });
+    }
+  }, [masteredTerms, onMasteryChange]);
 
   const handleCardFlip = (id) => {
     setFlippedCards(prev => ({
@@ -50,7 +59,7 @@ export default function GlossaryFlashcards({ className = "" }) {
       item.full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.definition.toLowerCase().includes(searchQuery.toLowerCase());
     
-    const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+    const matchesCategory = item.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -74,12 +83,16 @@ export default function GlossaryFlashcards({ className = "" }) {
               <span className="font-display font-bold text-lg text-[var(--text-primary)]">
                 Interactive Flashcards
               </span>
-              <span className="font-mono text-xs px-2 py-0.5 rounded-full bg-[var(--bg-primary)] border border-[var(--divider)] font-semibold text-[var(--accent-signal)]">
+              <span className={`font-mono text-xs px-2.5 py-0.5 rounded-full border font-semibold ${
+                masteredCount === totalCount
+                  ? 'bg-emerald-50 text-emerald-600 border-emerald-200'
+                  : 'bg-[var(--bg-primary)] border-[var(--divider)] text-[var(--accent-signal)]'
+              }`}>
                 {masteredCount} of {totalCount} Mastered
               </span>
             </div>
             <p className="font-body text-xs text-[var(--text-muted)] mt-0.5">
-              Click any card to reveal its engineering definition and mark terms as known.
+              Click any card to flip and mark &quot;✓ Got it&quot;. Master all {totalCount} terms across categories to unlock assessment.
             </p>
           </div>
         </div>
@@ -88,7 +101,9 @@ export default function GlossaryFlashcards({ className = "" }) {
         <div className="flex items-center gap-3 w-full md:w-64">
           <div className="flex-1 bg-[var(--divider)] h-2.5 rounded-full overflow-hidden">
             <div 
-              className="bg-[var(--accent-signal)] h-full rounded-full transition-all duration-300"
+              className={`h-full rounded-full transition-all duration-300 ${
+                masteredCount === totalCount ? 'bg-emerald-500' : 'bg-[var(--accent-signal)]'
+              }`}
               style={{ width: `${masteryPercentage}%` }}
             />
           </div>
@@ -102,10 +117,9 @@ export default function GlossaryFlashcards({ className = "" }) {
       {/* Filter & Search Controls */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3.5 mb-6">
         
-        {/* Category Pills */}
+        {/* Category Pills (Without 'All Terms') */}
         <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
           {[
-            { id: 'all', label: 'All Terms' },
             { id: 'aerodynamics', label: 'Aerodynamics' },
             { id: 'hardware', label: 'Hardware' },
             { id: 'avionics', label: 'Avionics' },

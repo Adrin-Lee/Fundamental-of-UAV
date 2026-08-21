@@ -506,7 +506,7 @@ export default function CurriculumFlashcardsView({
 
                   {/* ================= BACK SIDE (AUTHENTIC 3D FLIPPED) ================= */}
                   <div
-                    className="absolute inset-0 w-full h-full rounded-2xl bg-[var(--bg-elevated)] border-2 border-[var(--accent-signal)] p-5 sm:p-6 flex flex-col justify-between shadow-brand"
+                    className="absolute inset-0 w-full h-full rounded-2xl bg-[var(--bg-elevated)] border-2 border-[var(--accent-signal)] p-4 sm:p-5 flex flex-col justify-between shadow-brand overflow-hidden"
                     style={{
                       backfaceVisibility: 'hidden',
                       WebkitBackfaceVisibility: 'hidden',
@@ -514,14 +514,18 @@ export default function CurriculumFlashcardsView({
                     }}
                   >
                     {/* Back Header */}
-                    <div className="flex items-center justify-between pb-2.5 border-b border-[var(--divider)]">
-                      <span className="font-mono text-xs font-bold text-[var(--accent-signal)] uppercase tracking-wider">
-                        {mod.number} · Learning Objectives
-                      </span>
+                    <div className="flex items-center justify-between pb-2.5 border-b border-[var(--divider)] shrink-0">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-[var(--accent-signal)] animate-pulse" />
+                        <span className="font-mono text-[11px] sm:text-xs font-bold text-[var(--accent-signal)] uppercase tracking-wider">
+                          Module {mod.number} · Objectives
+                        </span>
+                      </div>
+
                       <button
                         type="button"
                         onClick={() => toggleFlip(mod.id)}
-                        className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-[var(--accent-signal)] hover:underline py-0.5 px-2 rounded-lg hover:bg-[var(--accent-signal-subtle)] transition-colors"
+                        className="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold text-[var(--accent-signal)] hover:bg-[var(--accent-signal-subtle)] py-1 px-2.5 rounded-lg border border-[var(--accent-signal-subtle)] transition-all cursor-pointer"
                       >
                         <RotateCw className="w-3 h-3" />
                         <span>Flip Front</span>
@@ -529,16 +533,16 @@ export default function CurriculumFlashcardsView({
                     </div>
 
                     {/* Middle: Objectives, Tools & Question */}
-                    <div className="my-auto space-y-2.5 py-1">
+                    <div className="flex-1 my-2 flex flex-col justify-between text-[11px] sm:text-xs min-h-0 overflow-y-auto space-y-2 pr-0.5">
                       {/* Target Competencies */}
                       <div>
-                        <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] block mb-1">
+                        <span className="font-mono text-[9.5px] font-bold uppercase tracking-wider text-[var(--text-muted)] block mb-1">
                           Target Competencies:
                         </span>
-                        <ul className="space-y-1 font-body text-xs text-[var(--text-secondary)] leading-relaxed">
+                        <ul className="space-y-1 font-body text-[11px] text-[var(--text-secondary)] leading-tight">
                           {mod.backDetails.objectives.map((obj, oIdx) => (
                             <li key={oIdx} className="flex items-start gap-1.5">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-signal)] mt-1.5 shrink-0" />
+                              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-signal)] mt-1 shrink-0" />
                               <span className="line-clamp-2">{obj}</span>
                             </li>
                           ))}
@@ -546,58 +550,58 @@ export default function CurriculumFlashcardsView({
                       </div>
 
                       {/* Embedded Tools */}
-                      <div className="p-2.5 rounded-xl bg-[var(--bg-primary)] border border-[var(--divider)]">
-                        <span className="font-mono text-[9.5px] font-bold uppercase tracking-wider text-[var(--text-muted)] block mb-0.5">
+                      <div className="p-2 rounded-xl bg-[var(--bg-primary)] border border-[var(--divider)]">
+                        <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-[var(--text-muted)] block mb-0.5">
                           Embedded Simulator / Tool:
                         </span>
-                        <div className="font-mono text-[11px] font-bold text-[var(--accent-signal)]">
+                        <div className="font-mono text-[10.5px] font-bold text-[var(--accent-signal)] truncate">
                           {mod.backDetails.interactiveTools.join(' · ')}
                         </div>
                       </div>
 
                       {/* Self-Test Check */}
-                      <div className="p-2.5 rounded-xl bg-[var(--accent-signal-subtle)] border border-[#BFDBFE]">
-                        <span className="font-mono text-[9.5px] font-bold uppercase tracking-wider text-[var(--accent-signal)] block mb-0.5">
+                      <div className="p-2 rounded-xl bg-[var(--accent-signal-subtle)] border border-[#BFDBFE]">
+                        <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-[var(--accent-signal)] block mb-0.5">
                           Self-Test Check:
                         </span>
-                        <p className="font-body text-[11px] text-[var(--accent-signal-deep)] font-medium italic line-clamp-2">
+                        <p className="font-body text-[10.5px] text-[var(--accent-signal-deep)] font-medium italic line-clamp-2">
                           "{mod.backDetails.testQuestion}"
                         </p>
                       </div>
                     </div>
 
                     {/* Back Bottom Action Bar */}
-                    <div className="pt-3 border-t border-[var(--divider)] flex items-center justify-between gap-2">
+                    <div className="pt-2.5 border-t border-[var(--divider)] flex items-center justify-between gap-2 shrink-0">
                       <button
                         type="button"
                         onClick={() => toggleFlip(mod.id)}
-                        className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-[var(--text-muted)] hover:text-[var(--accent-signal)] transition-colors"
+                        className="inline-flex items-center gap-1 font-mono text-[11px] font-semibold text-[var(--text-muted)] hover:text-[var(--accent-signal)] transition-colors py-1 px-1.5 rounded-md hover:bg-[var(--bg-primary)] cursor-pointer"
                       >
-                        <RotateCw className="w-3.5 h-3.5" />
-                        <span>Front</span>
+                        <RotateCw className="w-3 h-3" />
+                        <span>Flip Front</span>
                       </button>
 
                       <div className="flex items-center gap-2">
                         <button
                           type="button"
                           onClick={(e) => toggleModuleComplete(mod.id, e)}
-                          className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-xl font-mono text-[11px] font-semibold border transition-all cursor-pointer ${
+                          className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-xl font-mono text-[10.5px] font-semibold border transition-all cursor-pointer ${
                             isCompleted
                               ? 'bg-[#ECFDF5] text-[#047857] border-[#A7F3D0] hover:bg-[#D1FAE5]'
                               : 'bg-[var(--bg-primary)] text-[var(--text-secondary)] border-[var(--divider)] hover:border-[var(--accent-signal)] hover:text-[var(--accent-signal)]'
                           }`}
                         >
-                          <CheckCircle2 className={`w-3.5 h-3.5 ${isCompleted ? 'text-[#047857]' : 'text-[var(--text-muted)]'}`} />
+                          <CheckCircle2 className={`w-3 h-3 ${isCompleted ? 'text-[#047857]' : 'text-[var(--text-muted)]'}`} />
                           <span>{isCompleted ? 'Done ✓' : 'Mark Done'}</span>
                         </button>
 
                         <button
                           type="button"
                           onClick={mod.launchAction}
-                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[var(--accent-signal)] hover:bg-[var(--accent-signal-deep)] text-white font-mono text-xs font-bold shadow-2xs transition-all cursor-pointer"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-xl bg-[var(--accent-signal)] hover:bg-[var(--accent-signal-deep)] text-white font-mono text-[11px] font-bold shadow-2xs transition-all cursor-pointer"
                         >
                           <span>Start</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
+                          <ArrowRight className="w-3 h-3" />
                         </button>
                       </div>
                     </div>

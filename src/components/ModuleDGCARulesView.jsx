@@ -41,19 +41,16 @@ export default function ModuleDGCARulesView({ onNavigateHome, onNavigatePrev, on
     }
   });
 
-  const handleToggleComplete = () => {
-    const nextState = !isCompleted;
-    setIsCompleted(nextState);
+  const handleMarkCompleteAndNavigateAssessment = () => {
     try {
-      if (nextState) {
-        localStorage.setItem('asteria_module_mod-dgca-rules', 'completed');
-        localStorage.setItem('learning_mod-dgca-rules', 'completed');
-      } else {
-        localStorage.removeItem('asteria_module_mod-dgca-rules');
-        localStorage.removeItem('learning_mod-dgca-rules');
-      }
+      localStorage.setItem('asteria_module_mod-dgca-rules', 'completed');
+      localStorage.setItem('learning_mod-dgca-rules', 'completed');
     } catch (e) {
       console.warn(e);
+    }
+    setIsCompleted(true);
+    if (onNavigateAssessment) {
+      onNavigateAssessment();
     }
   };
 
@@ -119,27 +116,27 @@ export default function ModuleDGCARulesView({ onNavigateHome, onNavigatePrev, on
             </div>
           </div>
 
-          {/* Action Button: Mark as Complete -> changes to Take Assessment button once clicked */}
+          {/* Action Button: Single button to Mark Complete & Take Assessment */}
           <div className="flex items-center gap-2.5">
-            {isCompleted ? (
-              <button
-                type="button"
-                onClick={onNavigateAssessment}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold font-display text-white bg-[#0284C7] hover:bg-[#0369A1] shadow-brand transition-all cursor-pointer"
-              >
-                <Award className="w-3.5 h-3.5 text-white" />
-                <span>Take Assessment (10 Qs)</span>
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleToggleComplete}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold font-display text-white bg-[var(--accent-signal)] hover:bg-[var(--accent-signal-deep)] shadow-brand transition-all cursor-pointer"
-              >
-                <CheckCircle className="w-4 h-4 text-white" />
-                <span>Mark as Complete</span>
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={isCompleted ? onNavigateAssessment : handleMarkCompleteAndNavigateAssessment}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold font-display text-white bg-[var(--accent-signal)] hover:bg-[var(--accent-signal-deep)] shadow-brand transition-all cursor-pointer"
+            >
+              {isCompleted ? (
+                <>
+                  <Award className="w-3.5 h-3.5 text-white" />
+                  <span>Take Assessment (10 Qs)</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-white" />
+                </>
+              ) : (
+                <>
+                  <CheckCircle className="w-4 h-4 text-white" />
+                  <span>Mark as Complete & Take Assessment</span>
+                  <ArrowRight className="w-4 h-4 text-white" />
+                </>
+              )}
+            </button>
           </div>
         </div>
 
@@ -601,50 +598,26 @@ export default function ModuleDGCARulesView({ onNavigateHome, onNavigatePrev, on
             <span>Previous: Module 7</span>
           </button>
 
-          {/* Action Button: Mark Complete -> transforms to Take Assessment once completed */}
-          <div className="w-full sm:w-auto flex items-center gap-3">
+          {/* Action Button: Single prominent button to Mark Complete & Take Assessment */}
+          <button
+            type="button"
+            onClick={isCompleted ? onNavigateAssessment : handleMarkCompleteAndNavigateAssessment}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full text-sm font-bold font-display text-white bg-[var(--accent-signal)] hover:bg-[var(--accent-signal-deep)] shadow-brand transition-all cursor-pointer"
+          >
             {isCompleted ? (
-              <button
-                type="button"
-                onClick={onNavigateAssessment}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold font-display text-white bg-[#0284C7] hover:bg-[#0369A1] shadow-brand transition-all cursor-pointer"
-              >
+              <>
                 <Award className="w-4 h-4 text-white" />
                 <span>Take Module Assessment (10 Qs)</span>
                 <ArrowRight className="w-4 h-4 text-white" />
-              </button>
+              </>
             ) : (
-              <button
-                type="button"
-                onClick={handleToggleComplete}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold font-display text-white bg-[var(--accent-signal)] hover:bg-[var(--accent-signal-deep)] shadow-brand transition-all cursor-pointer"
-              >
+              <>
                 <CheckCircle className="w-4 h-4 text-white" />
-                <span>Mark as Complete</span>
-              </button>
+                <span>Mark as Complete & Take Assessment</span>
+                <ArrowRight className="w-4 h-4 text-white" />
+              </>
             )}
-          </div>
-
-          {/* Proceed to Final Assessment Link */}
-          {isCompleted ? (
-            <button
-              type="button"
-              onClick={onNavigateFinalAssessment}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold font-display text-white bg-[#059669] hover:bg-[#047857] shadow-brand transition-all focus-visible:ring-2 focus-visible:ring-[#059669] cursor-pointer"
-            >
-              <span>Proceed to Final Assessment (30 Qs)</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleToggleComplete}
-              className="w-full sm:w-auto p-3.5 px-6 rounded-2xl bg-[var(--bg-elevated)] border border-[var(--accent-signal)] hover:bg-[var(--accent-signal-subtle)] text-[var(--accent-signal)] flex items-center justify-center sm:justify-end gap-2 text-xs font-mono font-bold transition-all shadow-xs cursor-pointer"
-            >
-              <Lock className="w-3.5 h-3.5 shrink-0" />
-              <span>Mark Complete to Unlock <strong>Final Certification Assessment</strong> →</span>
-            </button>
-          )}
+          </button>
 
         </footer>
 

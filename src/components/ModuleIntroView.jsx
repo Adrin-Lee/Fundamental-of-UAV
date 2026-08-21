@@ -43,19 +43,35 @@ export default function ModuleIntroView({ onNavigateHome, onNavigateNext, onNavi
     }
   });
 
-  const handleToggleComplete = () => {
-    const nextState = !isCompleted;
-    setIsCompleted(nextState);
+  const [glossaryProgress, setGlossaryProgress] = useState(() => {
     try {
-      if (nextState) {
-        localStorage.setItem('asteria_module_mod-intro-terminology', 'completed');
-        localStorage.setItem('learning_mod-intro-terminology', 'completed');
-      } else {
-        localStorage.removeItem('asteria_module_mod-intro-terminology');
-        localStorage.removeItem('learning_mod-intro-terminology');
-      }
+      const saved = localStorage.getItem('asteria_glossary_progress');
+      const parsed = saved ? JSON.parse(saved) : {};
+      const count = Object.keys(parsed).length;
+      return { count, total: 14, isAllMastered: count >= 14 };
+    } catch {
+      return { count: 0, total: 14, isAllMastered: false };
+    }
+  });
+
+  const handleMasteryChange = (data) => {
+    setGlossaryProgress({
+      count: data.masteredCount,
+      total: data.totalCount,
+      isAllMastered: data.isAllMastered
+    });
+  };
+
+  const handleMarkCompleteAndNavigateAssessment = () => {
+    try {
+      localStorage.setItem('asteria_module_mod-intro-terminology', 'completed');
+      localStorage.setItem('learning_mod-intro-terminology', 'completed');
     } catch (e) {
       console.warn(e);
+    }
+    setIsCompleted(true);
+    if (onNavigateAssessment) {
+      onNavigateAssessment();
     }
   };
 
@@ -126,25 +142,37 @@ export default function ModuleIntroView({ onNavigateHome, onNavigateNext, onNavi
             </div>
           </div>
 
-          {/* Action Button: Mark as Complete -> changes to Take Assessment button once clicked */}
+          {/* Action Button: Single button requiring all terms mastered before activation */}
           <div className="flex items-center gap-2.5">
             {isCompleted ? (
               <button
                 type="button"
                 onClick={onNavigateAssessment}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold font-display text-white bg-[#0284C7] hover:bg-[#0369A1] shadow-brand transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold font-display text-white bg-[#0284C7] hover:bg-[#0369A1] shadow-brand transition-all cursor-pointer"
               >
                 <Award className="w-3.5 h-3.5 text-white" />
                 <span>Take Assessment (10 Qs)</span>
+                <ArrowRight className="w-3.5 h-3.5 text-white" />
+              </button>
+            ) : glossaryProgress.isAllMastered ? (
+              <button
+                type="button"
+                onClick={handleMarkCompleteAndNavigateAssessment}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold font-display text-white bg-[var(--accent-signal)] hover:bg-[var(--accent-signal-deep)] shadow-brand transition-all cursor-pointer"
+              >
+                <CheckCircle className="w-4 h-4 text-white" />
+                <span>Mark as Complete & Take Assessment</span>
+                <ArrowRight className="w-4 h-4 text-white" />
               </button>
             ) : (
               <button
                 type="button"
-                onClick={handleToggleComplete}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold font-display text-white bg-[var(--accent-signal)] hover:bg-[var(--accent-signal-deep)] shadow-brand transition-all cursor-pointer"
+                disabled
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold font-display text-[var(--text-muted)] bg-[var(--bg-elevated)] border border-[var(--divider)] cursor-not-allowed opacity-85 shadow-2xs"
+                title="Mark all 14 flashcard terms as 'Got it' to unlock assessment"
               >
-                <CheckCircle className="w-4 h-4 text-white" />
-                <span>Mark as Complete</span>
+                <Lock className="w-3.5 h-3.5 text-[var(--accent-signal)] shrink-0" />
+                <span>Master All Terms ({glossaryProgress.count}/{glossaryProgress.total})</span>
               </button>
             )}
           </div>
@@ -309,68 +337,56 @@ export default function ModuleIntroView({ onNavigateHome, onNavigateNext, onNavi
               </div>
 
             </div>
-
           </div>
         </section>
 
-        {/* ================= 4. TERMINOLOGY SECTION & FLASHCARDS ================= */}
-        {/* ================= 4. GLOSSARY FLASHCARDS ================= */}
-        <section id="section-terminology" className="pt-12 border-t border-[var(--divider)] mb-16 scroll-mt-28">
-          <SectionHeading
-            eyebrow="glossary"
-            title="Drone Terminology"
-            subtitle="Understanding these terms helps users, operators, engineers, and students communicate effectively and better understand drone systems and their functions."
+
+
+        {/* Section 3: Interactive Flashcards & Glossary */}
+        <section id="section-glossary" className="mb-14 scroll-mt-24">
+          <SectionHeading 
+            eyebrow="interactive flashcards"
+            title="Aviation Terminology Flashcard Deck"
+            subtitle="Click to flip terms and master essential acronyms (UAV, UAS, FC, ESC, IMU, BLDC)."
           />
 
           {/* Embedded Reusable Flashcards Tool */}
-          <GlossaryFlashcards />
+          <GlossaryFlashcards onMasteryChange={handleMasteryChange} />
         </section>
 
         {/* ================= 5. MODULE FOOTER NAVIGATION ================= */}
-        <footer className="pt-8 border-t border-[var(--divider)] flex flex-col sm:flex-row items-center justify-between gap-4">
+        <footer className="pt-8 border-t border-[var(--divider)] flex flex-col sm:flex-row items-center justify-end gap-4">
           
-          {/* Action Button: Mark Complete -> transforms to Take Assessment once completed */}
-          <div className="w-full sm:w-auto flex items-center gap-3">
-            {isCompleted ? (
-              <button
-                type="button"
-                onClick={onNavigateAssessment}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold font-display text-white bg-[#0284C7] hover:bg-[#0369A1] shadow-brand transition-all cursor-pointer"
-              >
-                <Award className="w-4 h-4 text-white" />
-                <span>Take Module Assessment (10 Qs)</span>
-                <ArrowRight className="w-4 h-4 text-white" />
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleToggleComplete}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold font-display text-white bg-[var(--accent-signal)] hover:bg-[var(--accent-signal-deep)] shadow-brand transition-all cursor-pointer"
-              >
-                <CheckCircle className="w-4 h-4 text-white" />
-                <span>Mark as Complete</span>
-              </button>
-            )}
-          </div>
-
-          {/* Next Module Navigation Link */}
+          {/* Action Button: Single prominent button unlocking only after all terms mastered */}
           {isCompleted ? (
             <button
               type="button"
-              onClick={onNavigateNext}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold font-display text-white bg-[#059669] hover:bg-[#047857] shadow-brand transition-all focus-visible:ring-2 focus-visible:ring-[#059669] cursor-pointer"
+              onClick={onNavigateAssessment}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full text-sm font-bold font-display text-white bg-[#0284C7] hover:bg-[#0369A1] shadow-brand transition-all cursor-pointer"
             >
-              <span>Next: {moduleInfo.next_module_title}</span>
-              <ArrowRight className="w-4 h-4" />
+              <Award className="w-4 h-4 text-white" />
+              <span>Take Module Assessment (10 Qs)</span>
+              <ArrowRight className="w-4 h-4 text-white" />
+            </button>
+          ) : glossaryProgress.isAllMastered ? (
+            <button
+              type="button"
+              onClick={handleMarkCompleteAndNavigateAssessment}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full text-sm font-bold font-display text-white bg-[var(--accent-signal)] hover:bg-[var(--accent-signal-deep)] shadow-brand transition-all cursor-pointer"
+            >
+              <CheckCircle className="w-4 h-4 text-white" />
+              <span>Mark as Complete & Take Assessment</span>
+              <ArrowRight className="w-4 h-4 text-white" />
             </button>
           ) : (
             <button
               type="button"
-              onClick={handleToggleComplete}
-              className="w-full sm:w-auto p-3.5 px-6 rounded-2xl bg-[var(--bg-elevated)] border border-[var(--accent-signal)] hover:bg-[var(--accent-signal-subtle)] text-[var(--accent-signal)] flex items-center justify-center sm:justify-end gap-2 text-xs font-mono font-bold transition-all shadow-xs cursor-pointer"
+              disabled
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full text-sm font-bold font-display text-[var(--text-muted)] bg-[var(--bg-elevated)] border border-[var(--divider)] cursor-not-allowed opacity-85 shadow-xs"
+              title="Mark all 14 flashcard terms as 'Got it' to unlock assessment"
             >
-              <Lock className="w-3.5 h-3.5 shrink-0" />
-              <span>Mark Complete to Unlock <strong>Next: {moduleInfo.next_module_title}</strong> →</span>
+              <Lock className="w-4 h-4 text-[var(--accent-signal)] shrink-0" />
+              <span>Master All 14 Terms to Unlock Assessment ({glossaryProgress.count}/{glossaryProgress.total} Mastered)</span>
             </button>
           )}
 

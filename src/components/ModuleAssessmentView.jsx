@@ -396,7 +396,7 @@ export default function ModuleAssessmentView({
               <button
                 type="button"
                 onClick={onNavigateBackToModule}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-xs font-semibold font-body text-[var(--text-secondary)] bg-[var(--bg-elevated)] border border-[var(--divider)] hover:bg-[var(--bg-primary)] transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-xs font-semibold font-body text-[var(--text-secondary)] bg-[var(--bg-elevated)] border border-[var(--divider)] hover:bg-[var(--bg-primary)] transition-all cursor-pointer"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>Return to Module Study</span>
@@ -404,7 +404,7 @@ export default function ModuleAssessmentView({
 
               <button
                 type="submit"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold font-display text-white bg-[var(--accent-signal)] hover:bg-[var(--accent-signal-deep)] shadow-brand transition-all focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold font-display text-white bg-[var(--accent-signal)] hover:bg-[var(--accent-signal-deep)] shadow-brand transition-all focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] cursor-pointer"
               >
                 <span>Submit Assessment (10 Questions)</span>
                 <ArrowRight className="w-4 h-4" />
@@ -415,7 +415,7 @@ export default function ModuleAssessmentView({
               <button
                 type="button"
                 onClick={handleRetake}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs font-bold font-mono text-[var(--text-secondary)] bg-[var(--bg-elevated)] border border-[var(--divider)] hover:bg-[var(--bg-primary)] transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs font-bold font-mono text-[var(--text-secondary)] bg-[var(--bg-elevated)] border border-[var(--divider)] hover:bg-[var(--bg-primary)] transition-all cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Retake Assessment</span>
@@ -425,10 +425,14 @@ export default function ModuleAssessmentView({
                 <button
                   type="button"
                   onClick={onNavigateNextModule}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold font-display text-white bg-[#059669] hover:bg-[#047857] shadow-brand transition-all cursor-pointer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full text-sm font-bold font-display text-white bg-[#059669] hover:bg-[#047857] shadow-brand transition-all cursor-pointer"
                 >
-                  <span>{moduleId === 'mod-dgca-rules' ? 'Proceed to Final Certification Exam (30 Qs)' : 'Proceed to Next Module'}</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>
+                    {moduleInfo.next_module_title 
+                      ? `Proceed to Next Module: ${moduleInfo.next_module_title}` 
+                      : (moduleId === 'mod-dgca-rules' ? 'Proceed to Final Certification Exam (30 Qs)' : 'Proceed to Next Module')}
+                  </span>
+                  <ArrowRight className="w-4 h-4 text-white" />
                 </button>
               )}
             </div>
