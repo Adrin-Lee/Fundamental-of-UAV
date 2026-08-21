@@ -31,8 +31,8 @@ export default function Navbar({
             <span className="font-display font-bold tracking-tight text-[19px] text-[var(--accent-signal)] uppercase">
               Drone Fundamentals
             </span>
-            <span className="font-mono text-[11px] tracking-wider text-[var(--text-muted)] uppercase font-semibold">
-              Internal Training Portal
+            <span className="font-mono text-[11px] tracking-wider text-[var(--accent-signal)] font-bold italic">
+              From Theory to Takeoff.
             </span>
           </div>
         </button>

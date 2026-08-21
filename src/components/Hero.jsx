@@ -38,18 +38,28 @@ export default function Hero({ onStartLearning, onExploreCurriculum }) {
           {/* Left Column: Educational Welcoming Copy & Action Pipeline */}
           <div className="lg:col-span-7 flex flex-col items-start animate-hero-fade">
             
-            {/* Eyebrow Label */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 mb-3 rounded-full bg-[var(--accent-signal-subtle)] border border-[#BFDBFE]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-signal)]" />
-              <span className="font-display text-[10px] sm:text-xs font-bold tracking-[0.08em] uppercase text-[var(--accent-signal)]">
-                UAV AERODYNAMICS & SYSTEMS · DRONE FUNDAMENTALS TRAINING
+            {/* Eyebrow Label & Motivational Slogan Badge */}
+            <div className="flex flex-wrap items-center gap-2 mb-3">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[var(--accent-signal-subtle)] border border-[#BFDBFE] shadow-2xs">
+                <Sparkles className="w-3.5 h-3.5 text-[var(--accent-signal)] shrink-0 animate-pulse" />
+                <span className="font-display text-[11px] sm:text-xs font-bold tracking-[0.08em] uppercase text-[var(--accent-signal)]">
+                  &quot;From Theory to Takeoff.&quot;
+                </span>
+              </div>
+              <span className="hidden sm:inline-block font-mono text-[10px] font-semibold tracking-wider uppercase text-[var(--text-muted)]">
+                · UAV AERODYNAMICS & SYSTEMS TRAINING
               </span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="font-display text-2xl sm:text-4xl lg:text-[40px] xl:text-[46px] font-bold tracking-tight text-[var(--text-primary)] leading-[1.12] mb-3">
+            <h1 className="font-display text-2xl sm:text-4xl lg:text-[40px] xl:text-[46px] font-bold tracking-tight text-[var(--text-primary)] leading-[1.12] mb-1">
               Welcome to Drone Fundamentals.
             </h1>
+
+            {/* Motivational Slogan Tagline */}
+            <h2 className="font-display text-lg sm:text-xl font-extrabold text-[var(--accent-signal)] tracking-tight mb-3 italic">
+              From Theory to Takeoff.
+            </h2>
 
             {/* Welcome & Purpose Paragraph */}
             <p className="font-body text-xs sm:text-sm lg:text-base text-[var(--text-muted)] leading-relaxed max-w-xl mb-4 sm:mb-5">

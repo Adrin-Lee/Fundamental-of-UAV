@@ -16,9 +16,14 @@ export default function Footer() {
                   <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                 </svg>
               </div>
-              <span className="font-display font-bold text-base text-[var(--accent-signal)] uppercase tracking-tight">
-                Drone Fundamentals
-              </span>
+              <div className="flex flex-col">
+                <span className="font-display font-bold text-base text-[var(--accent-signal)] uppercase tracking-tight">
+                  Drone Fundamentals
+                </span>
+                <span className="font-mono text-[11px] font-bold text-[var(--accent-signal)] italic">
+                  From Theory to Takeoff.
+                </span>
+              </div>
             </div>
             <p className="font-body text-xs text-[var(--text-muted)] max-w-sm leading-relaxed mb-4">
               Comprehensive UAV technical curriculum & interactive drone systems fundamentals platform for engineers, technicians, and operators.
