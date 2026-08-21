@@ -657,10 +657,10 @@ export default function CurriculumFlashcardsView({
                   <Award className="w-5 h-5" />
                 </div>
                 <h3 className="font-display text-lg font-bold text-[#065F46] mb-1">
-                  Take Final Certification Exam
+                  Take Final Assessment Test
                 </h3>
                 <p className="font-body text-xs text-[#047857] leading-relaxed">
-                  You've unlocked the certification exam! Complete the 30-question comprehensive examination to earn your drone fundamentals certificate.
+                  You&apos;ve unlocked the final assessment test! Complete the 30-question comprehensive test to finish your drone fundamentals training.
                 </p>
               </div>
 
@@ -669,7 +669,7 @@ export default function CurriculumFlashcardsView({
                 onClick={onNavigateFinalAssessment}
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#059669] hover:bg-[#047857] text-white font-display text-xs font-bold shadow-brand transition-all self-start"
               >
-                <span>Take Final Exam (30 Qs)</span>
+                <span>Take Final Assessment Test (30 Qs)</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -680,10 +680,10 @@ export default function CurriculumFlashcardsView({
                   <Award className="w-5 h-5 opacity-40" />
                 </div>
                 <h3 className="font-display text-lg font-bold text-[var(--text-primary)] mb-1">
-                  Final Certification Exam (Locked)
+                  Final Assessment Test (Locked)
                 </h3>
                 <p className="font-body text-xs text-[var(--text-muted)] leading-relaxed">
-                  Complete and submit all 8 module assessments to unlock the comprehensive 30-question final certification examination.
+                  Complete and submit all 8 module assessments to unlock the comprehensive 30-question final assessment test.
                 </p>
               </div>
 

@@ -562,7 +562,7 @@ export const modulesData = {
     order_index: 8,
     source_section: "DGCA Regulations",
     next_module_id: "final-assessment",
-    next_module_title: "Final Certification Assessment",
+    next_module_title: "Final Assessment Test",
     intro: "The Directorate General of Civil Aviation (DGCA) regulates drone operations in India through the Drone Rules, 2021. To ensure safe use of Indian airspace, DGCA classifies the country's airspace into Green, Yellow, and Red Zones.",
     disclaimer_banner: "Zone boundaries and rules can change. Before every real flight, verify the current airspace map on the DigitalSky platform (digitalsky.gov.in) and check registration/licensing status on eGCA — this module is for learning, not operational clearance.",
     zones: {

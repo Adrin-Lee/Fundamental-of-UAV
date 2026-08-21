@@ -70,7 +70,7 @@ export default function TrackIndex({ onSelectTrack1, onSelectTrack2, onSelectTra
             </h2>
           </div>
           <p className="font-body text-xs sm:text-sm text-[var(--text-muted)] max-w-md">
-            Click any track to enter its modules. Complete all 4 tracks to unlock the Final Certification Assessment.
+            Click any track to enter its modules. Complete all 4 tracks to unlock the Final Assessment Test.
           </p>
         </div>
 

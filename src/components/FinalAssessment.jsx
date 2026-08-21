@@ -500,7 +500,7 @@ export default function FinalAssessment({ onNavigateHome, onRetake }) {
           </h2>
 
           <p className="font-body text-sm text-[var(--text-muted)] max-w-md mb-8 leading-relaxed">
-            The Final Certification Assessment is unlocked after submitting Module 8 (DGCA Regulations) assessment.
+            The Final Assessment Test is unlocked after submitting Module 8 (DGCA Regulations) assessment.
           </p>
 
           <button
@@ -536,15 +536,15 @@ export default function FinalAssessment({ onNavigateHome, onRetake }) {
         <div className="flex items-center gap-2 mb-1.5">
           <span className="w-2 h-2 rounded-full bg-[var(--accent-signal)]" />
           <span className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--accent-signal)]">
-            FINAL COMPREHENSIVE CERTIFICATION EXAM · 30 QUESTIONS (1 MARK EACH)
+            FINAL COMPREHENSIVE ASSESSMENT TEST · 30 QUESTIONS (1 MARK EACH)
           </span>
         </div>
 
         <h1 className="font-display text-3xl sm:text-4xl font-bold text-[var(--text-primary)]">
-          Drone Fundamentals Final Certification Assessment
+          Drone Fundamentals Final Assessment Test
         </h1>
         <p className="font-body text-sm sm:text-base text-[var(--text-muted)] mt-1.5 leading-relaxed">
-          Comprehensive 30-question certification exam evaluating your understanding across all 8 modules (Lift, Hardware, Avionics, Flight Forces, Autonomous Modes, Kinematics, and DGCA Regulations). Each question carries 1 Mark (Total: 30 Marks). Passing grade is 75% (23/30).
+          Comprehensive 30-question final assessment test evaluating your understanding across all 8 modules (Lift, Hardware, Avionics, Flight Forces, Autonomous Modes, Kinematics, and DGCA Regulations). Each question carries 1 Mark (Total: 30 Marks). Passing grade is 75% (23/30).
         </p>
       </div>
 

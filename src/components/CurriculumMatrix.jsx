@@ -179,7 +179,7 @@ export default function CurriculumMatrix({
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#059669] hover:bg-[#047857] text-white font-display text-xs font-bold shadow-brand transition-all"
           >
             <Award className="w-4 h-4" />
-            <span>Final Certification Exam</span>
+            <span>Final Assessment Test</span>
           </button>
         </div>
 

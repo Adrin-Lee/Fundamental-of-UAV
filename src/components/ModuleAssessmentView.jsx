@@ -430,7 +430,7 @@ export default function ModuleAssessmentView({
                   <span>
                     {moduleInfo.next_module_title 
                       ? `Proceed to Next Module: ${moduleInfo.next_module_title}` 
-                      : (moduleId === 'mod-dgca-rules' ? 'Proceed to Final Certification Exam (30 Qs)' : 'Proceed to Next Module')}
+                      : (moduleId === 'mod-dgca-rules' ? 'Proceed to Final Assessment Test (30 Qs)' : 'Proceed to Next Module')}
                   </span>
                   <ArrowRight className="w-4 h-4 text-white" />
                 </button>
