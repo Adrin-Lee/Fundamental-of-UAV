@@ -18,7 +18,7 @@ export default function Footer() {
               </div>
               <div className="flex flex-col">
                 <span className="font-display font-bold text-base text-[var(--accent-signal)] uppercase tracking-tight">
-                  Drone Fundamentals
+                  Internal Training Portal
                 </span>
                 <span className="font-mono text-[11px] font-bold text-[var(--accent-signal)] italic">
                   From Theory to Takeoff.
@@ -59,14 +59,14 @@ export default function Footer() {
         {/* Copyright, Developer Signature and Meta Bar */}
         <div className="pt-6 flex flex-col md:flex-row items-center justify-between text-xs font-mono text-[var(--text-muted)] gap-3">
           <div className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-3 text-center sm:text-left">
-            <span>© {new Date().getFullYear()} Drone Fundamentals. All Rights Reserved.</span>
+            <span>© {new Date().getFullYear()} Internal Training Portal. All Rights Reserved.</span>
             <span className="hidden sm:inline text-[var(--divider)]">|</span>
             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[var(--bg-elevated)] border border-[var(--divider)] text-[var(--text-secondary)]">
               <Code2 className="w-3.5 h-3.5 text-[var(--accent-signal)]" />
               <span>Developed by <strong className="text-[var(--accent-signal)] font-bold">Suryajayan Alex</strong></span>
             </span>
           </div>
-          <span className="text-[11px]">Drone Fundamentals Platform · Version 1.0.0</span>
+          <span className="text-[11px]">Internal Training Portal · Version 1.0.0</span>
         </div>
 
       </div>

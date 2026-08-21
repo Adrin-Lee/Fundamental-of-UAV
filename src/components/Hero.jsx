@@ -47,13 +47,13 @@ export default function Hero({ onStartLearning, onExploreCurriculum }) {
                 </span>
               </div>
               <span className="hidden sm:inline-block font-mono text-[10px] font-semibold tracking-wider uppercase text-[var(--text-muted)]">
-                · UAV AERODYNAMICS & SYSTEMS TRAINING
+                · INTERNAL TRAINING PORTAL
               </span>
             </div>
 
             {/* Main Headline */}
             <h1 className="font-display text-2xl sm:text-4xl lg:text-[40px] xl:text-[46px] font-bold tracking-tight text-[var(--text-primary)] leading-[1.12] mb-1">
-              Welcome to Drone Fundamentals.
+              Welcome to Internal Training Portal.
             </h1>
 
             {/* Motivational Slogan Tagline */}

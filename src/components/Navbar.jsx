@@ -16,7 +16,7 @@ export default function Navbar({
         <button 
           onClick={onNavigateHome}
           className="flex items-center gap-3.5 group text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] rounded-md"
-          aria-label="Drone Fundamentals Home"
+          aria-label="Internal Training Portal Home"
         >
           {/* Asteria Logo Mark */}
           <div className="w-11 h-11 flex items-center justify-center rounded-full overflow-hidden shadow-sm transition-transform group-hover:scale-105 bg-white border border-[var(--divider)] p-0.5">
@@ -29,7 +29,7 @@ export default function Navbar({
           
           <div className="flex flex-col leading-tight">
             <span className="font-display font-bold tracking-tight text-[19px] text-[var(--accent-signal)] uppercase">
-              Drone Fundamentals
+              Internal Training Portal
             </span>
             <span className="font-mono text-[11px] tracking-wider text-[var(--accent-signal)] font-bold italic">
               From Theory to Takeoff.
